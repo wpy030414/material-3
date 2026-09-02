@@ -1,89 +1,89 @@
-# MD3 Color System
+# MD3 色彩系统
 
-Complete reference for Material Design 3's color system: roles, tonal palettes, dynamic color, and scheme generation.
+Material Design 3 色彩系统的完整参考：色彩角色、色调色板、动态配色和配色方案生成。
 
-## Color Roles
+## 色彩角色
 
-MD3 defines 29+ color roles organized into groups. **Jetpack Compose:** map to `MaterialTheme.colorScheme` (e.g. `primary`, `onPrimary`). **Web:** each role exists as a CSS custom property `--md-sys-color-{role-name}`.
+MD3 定义了 29 个以上的色彩角色，按组分类。**Jetpack Compose：** 映射到 `MaterialTheme.colorScheme`（例如 `primary`、`onPrimary`）。**Web：** 每个角色以 CSS 自定义属性 `--md-sys-color-{role-name}` 的形式存在。
 
-### Accent Colors
+### 强调色
 
-Three accent groups (primary, secondary, tertiary) each have 4 roles:
+三个强调色组（primary、secondary、tertiary）各有 4 个角色：
 
-| Role | CSS Token | Purpose |
-|------|-----------|---------|
-| Primary | `--md-sys-color-primary` | High-emphasis fills, text, icons against surface |
-| On Primary | `--md-sys-color-on-primary` | Text and icons on primary |
-| Primary Container | `--md-sys-color-primary-container` | Standout fill for key components (FAB, etc.) |
-| On Primary Container | `--md-sys-color-on-primary-container` | Text and icons on primary-container |
-| Secondary | `--md-sys-color-secondary` | Less prominent fills, text, icons |
-| On Secondary | `--md-sys-color-on-secondary` | Text and icons on secondary |
-| Secondary Container | `--md-sys-color-secondary-container` | Recessive components (tonal buttons) |
-| On Secondary Container | `--md-sys-color-on-secondary-container` | Text and icons on secondary-container |
-| Tertiary | `--md-sys-color-tertiary` | Complementary fills, text, icons |
-| On Tertiary | `--md-sys-color-on-tertiary` | Text and icons on tertiary |
-| Tertiary Container | `--md-sys-color-tertiary-container` | Complementary container fill |
-| On Tertiary Container | `--md-sys-color-on-tertiary-container` | Text and icons on tertiary-container |
+| 角色 | CSS Token | 用途 |
+|------|-----------|------|
+| Primary | `--md-sys-color-primary` | 高强调度的填充、文本、相对于表面的图标 |
+| On Primary | `--md-sys-color-on-primary` | primary 上的文本和图标 |
+| Primary Container | `--md-sys-color-primary-container` | 关键组件的突出填充（如 FAB） |
+| On Primary Container | `--md-sys-color-on-primary-container` | primary-container 上的文本和图标 |
+| Secondary | `--md-sys-color-secondary` | 较低强调度的填充、文本、图标 |
+| On Secondary | `--md-sys-color-on-secondary` | secondary 上的文本和图标 |
+| Secondary Container | `--md-sys-color-secondary-container` | 退让性组件（色调按钮） |
+| On Secondary Container | `--md-sys-color-on-secondary-container` | secondary-container 上的文本和图标 |
+| Tertiary | `--md-sys-color-tertiary` | 互补性填充、文本、图标 |
+| On Tertiary | `--md-sys-color-on-tertiary` | tertiary 上的文本和图标 |
+| Tertiary Container | `--md-sys-color-tertiary-container` | 互补性容器填充 |
+| On Tertiary Container | `--md-sys-color-on-tertiary-container` | tertiary-container 上的文本和图标 |
 
-**Usage guidance:**
-- **Primary**: Most prominent components — FABs, high-emphasis buttons, active states
-- **Secondary**: Less prominent components — filter chips, tonal buttons, selection states
-- **Tertiary**: Contrasting accents that balance primary/secondary — input fields, badges
+**使用指南：**
+- **Primary**：最突出的组件 —— FAB、高强调度按钮、激活状态
+- **Secondary**：较不突出的组件 —— 筛选标签、色调按钮、选择状态
+- **Tertiary**：与 primary/secondary 形成平衡的对比强调 —— 输入框、徽标
 
-### Error Colors
+### 错误色
 
-Static colors that don't change with dynamic color schemes:
+不随动态配色方案变化的静态颜色：
 
-| Role | CSS Token | Purpose |
-|------|-----------|---------|
-| Error | `--md-sys-color-error` | Attention-grabbing color for urgent elements |
-| On Error | `--md-sys-color-on-error` | Text and icons on error |
-| Error Container | `--md-sys-color-error-container` | Error container fill |
-| On Error Container | `--md-sys-color-on-error-container` | Text and icons on error-container |
+| 角色 | CSS Token | 用途 |
+|------|-----------|------|
+| Error | `--md-sys-color-error` | 用于紧急元素的醒目颜色 |
+| On Error | `--md-sys-color-on-error` | error 上的文本和图标 |
+| Error Container | `--md-sys-color-error-container` | 错误容器填充 |
+| On Error Container | `--md-sys-color-on-error-container` | error-container 上的文本和图标 |
 
-### Surface Colors
+### 表面色
 
-| Role | CSS Token | Purpose |
-|------|-----------|---------|
-| Surface | `--md-sys-color-surface` | Default background color |
-| On Surface | `--md-sys-color-on-surface` | Text and icons on any surface |
-| On Surface Variant | `--md-sys-color-on-surface-variant` | Lower-emphasis text/icons on surface |
-| Surface Container Lowest | `--md-sys-color-surface-container-lowest` | Lowest-emphasis container |
-| Surface Container Low | `--md-sys-color-surface-container-low` | Low-emphasis container |
-| Surface Container | `--md-sys-color-surface-container` | Default container (navigation areas) |
-| Surface Container High | `--md-sys-color-surface-container-high` | High-emphasis container |
-| Surface Container Highest | `--md-sys-color-surface-container-highest` | Highest-emphasis container |
-| Surface Dim | `--md-sys-color-surface-dim` | Dimmest surface in both themes |
-| Surface Bright | `--md-sys-color-surface-bright` | Brightest surface in both themes |
+| 角色 | CSS Token | 用途 |
+|------|-----------|------|
+| Surface | `--md-sys-color-surface` | 默认背景色 |
+| On Surface | `--md-sys-color-on-surface` | 任意表面上的文本和图标 |
+| On Surface Variant | `--md-sys-color-on-surface-variant` | 表面上较低强调度的文本/图标 |
+| Surface Container Lowest | `--md-sys-color-surface-container-lowest` | 最低强调度容器 |
+| Surface Container Low | `--md-sys-color-surface-container-low` | 低强调度容器 |
+| Surface Container | `--md-sys-color-surface-container` | 默认容器（导航区域） |
+| Surface Container High | `--md-sys-color-surface-container-high` | 高强调度容器 |
+| Surface Container Highest | `--md-sys-color-surface-container-highest` | 最高强调度容器 |
+| Surface Dim | `--md-sys-color-surface-dim` | 两种主题中最暗的表面 |
+| Surface Bright | `--md-sys-color-surface-bright` | 两种主题中最亮的表面 |
 
-**Surface container hierarchy**: Use `surface` for background, `surface-container` for navigation. The 5 container levels create visual hierarchy and nesting depth, especially useful for expanded layouts with multiple panes.
+**表面容器层级**：使用 `surface` 作为背景，`surface-container` 用于导航。5 个容器层级创造视觉层级和嵌套深度，特别适用于包含多个面板的扩展布局。
 
-**Surface dim/bright**: Unlike regular surface (which flips from light to dark), dim and bright maintain their relative brightness in both themes. Use bright for areas that should always be the lightest, dim for areas that should always be the dimmest.
+**Surface dim/bright**：与普通 surface（在亮色和暗色之间翻转）不同，dim 和 bright 在两种主题中保持其相对亮度。使用 bright 用于需要始终最亮的区域，dim 用于需要始终最暗的区域。
 
-### Inverse Colors
+### 反色
 
-For elements that contrast against the surrounding UI (e.g., snackbars):
+用于与周围 UI 形成对比的元素（例如 snackbars）：
 
-| Role | CSS Token | Purpose |
-|------|-----------|---------|
-| Inverse Surface | `--md-sys-color-inverse-surface` | Background for contrasting elements |
-| Inverse On Surface | `--md-sys-color-inverse-on-surface` | Text on inverse-surface |
-| Inverse Primary | `--md-sys-color-inverse-primary` | Actionable text on inverse-surface |
+| 角色 | CSS Token | 用途 |
+|------|-----------|------|
+| Inverse Surface | `--md-sys-color-inverse-surface` | 对比元素的背景 |
+| Inverse On Surface | `--md-sys-color-inverse-on-surface` | inverse-surface 上的文本 |
+| Inverse Primary | `--md-sys-color-inverse-primary` | inverse-surface 上的可操作文本 |
 
-### Outline Colors
+### 轮廓色
 
-| Role | CSS Token | Purpose |
-|------|-----------|---------|
-| Outline | `--md-sys-color-outline` | Important boundaries (text field borders, 3:1 contrast) |
-| Outline Variant | `--md-sys-color-outline-variant` | Decorative elements (dividers, card borders) |
+| 角色 | CSS Token | 用途 |
+|------|-----------|------|
+| Outline | `--md-sys-color-outline` | 重要边界（文本字段边框，3:1 对比度） |
+| Outline Variant | `--md-sys-color-outline-variant` | 装饰性元素（分隔线、卡片边框） |
 
-**Important**: Don't use `outline` for dividers — use `outline-variant`. Don't use `outline-variant` for interactive boundaries that need 3:1 contrast — use `outline`.
+**重要提示**：不要将 `outline` 用于分隔线 —— 请使用 `outline-variant`。不要将 `outline-variant` 用于需要 3:1 对比度的交互边界 —— 请使用 `outline`。
 
-### Fixed Accent Colors (Add-on)
+### 固定强调色（附加）
 
-These maintain the same color in both light and dark themes (unlike regular container colors which change tone):
+这些颜色在亮色和暗色主题中保持不变（与普通容器颜色会随主题变化不同）：
 
-| Role | CSS Token |
+| 角色 | CSS Token |
 |------|-----------|
 | Primary Fixed | `--md-sys-color-primary-fixed` |
 | Primary Fixed Dim | `--md-sys-color-primary-fixed-dim` |
@@ -98,23 +98,23 @@ These maintain the same color in both light and dark themes (unlike regular cont
 | On Tertiary Fixed | `--md-sys-color-on-tertiary-fixed` |
 | On Tertiary Fixed Variant | `--md-sys-color-on-tertiary-fixed-variant` |
 
-**Caution**: Fixed colors don't adapt to theme, so they may cause contrast issues. Use regular accent roles for elements where contrast is critical.
+**注意**：固定颜色不会随主题适配，因此可能导致对比度问题。对于对比度至关重要的元素，请使用常规强调色角色。
 
-## Tonal Palette System
+## 色调色板系统
 
-MD3 generates colors from a **seed color** through the tonal palette system:
+MD3 通过**种子色**和色调色板系统生成颜色：
 
-### How It Works
+### 工作原理
 
-1. A **seed color** (hex value) is chosen
-2. The seed generates **5 tonal palettes**: Primary, Secondary, Tertiary, Neutral, Neutral-Variant
-3. Each palette uses tonal stops along **0–100** (commonly 16 key stops: 0, 10, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 95, 98, 99, 100)
-4. Color roles are mapped to specific tonal values depending on light or dark scheme
+1. 选择一个**种子色**（十六进制值）
+2. 种子色生成 **5 个色调色板**：Primary、Secondary、Tertiary、Neutral、Neutral-Variant
+3. 每个色板使用 **0–100** 之间的色调停止点（常用 16 个关键停止点：0、10、20、25、30、35、40、50、60、70、80、90、95、98、99、100）
+4. 色彩角色根据亮色或暗色方案映射到特定的色调值
 
-### Tonal Value Mapping (Light Scheme)
+### 色调值映射（亮色方案）
 
-| Role | Tonal Palette | Tone |
-|------|--------------|------|
+| 角色 | 色调色板 | 色调 |
+|------|----------|------|
 | Primary | Primary | 40 |
 | On Primary | Primary | 100 |
 | Primary Container | Primary | 90 |
@@ -129,10 +129,10 @@ MD3 generates colors from a **seed color** through the tonal palette system:
 | Outline | Neutral-Variant | 50 |
 | Outline Variant | Neutral-Variant | 80 |
 
-### Tonal Value Mapping (Dark Scheme)
+### 色调值映射（暗色方案）
 
-| Role | Tonal Palette | Tone |
-|------|--------------|------|
+| 角色 | 色调色板 | 色调 |
+|------|----------|------|
 | Primary | Primary | 80 |
 | On Primary | Primary | 20 |
 | Primary Container | Primary | 30 |
@@ -147,12 +147,12 @@ MD3 generates colors from a **seed color** through the tonal palette system:
 | Outline | Neutral-Variant | 60 |
 | Outline Variant | Neutral-Variant | 30 |
 
-## Color Pairing Rules
+## 配色规则
 
-Colors must only be used in their intended pairs to ensure accessible contrast:
+颜色只能以其预期的配对方式使用，以确保可访问的对比度：
 
-| Container/Fill | Text/Icon Color |
-|---------------|----------------|
+| 容器/填充 | 文本/图标颜色 |
+|-----------|---------------|
 | `primary` | `on-primary` |
 | `primary-container` | `on-primary-container` |
 | `secondary` | `on-secondary` |
@@ -161,23 +161,25 @@ Colors must only be used in their intended pairs to ensure accessible contrast:
 | `tertiary-container` | `on-tertiary-container` |
 | `error` | `on-error` |
 | `error-container` | `on-error-container` |
-| `surface` | `on-surface` or `on-surface-variant` |
-| `surface-container-*` | `on-surface` or `on-surface-variant` |
-| `inverse-surface` | `inverse-on-surface` or `inverse-primary` |
+| `surface` | `on-surface` 或 `on-surface-variant` |
+| `surface-container-*` | `on-surface` 或 `on-surface-variant` |
+| `inverse-surface` | `inverse-on-surface` 或 `inverse-primary` |
 
-**Never pair colors outside their intended pairs** — this breaks contrast guarantees, especially under dynamic color and high contrast modes.
+**切勿将颜色用于非预期的配对** —— 这会破坏对比度保证，特别是在动态配色和高对比度模式下。
 
-## Dynamic Color
+## 动态配色
 
-Dynamic color creates personalized color schemes from external sources:
+动态配色从外部来源创建个性化的配色方案：
 
-### User-Generated (Wallpaper)
-The OS extracts a seed color from the user's wallpaper and generates a scheme. **Android:** `dynamicLightColorScheme` / `dynamicDarkColorScheme` on **Android 12+ (API 31+)**. **Web:** there is **no** browser wallpaper dynamic-color API equivalent; you can derive a seed from **content** (e.g. images) with libraries, but that is app-specific, not system wallpaper theming.
+### 用户生成（壁纸）
 
-### Content-Based
-A seed color is extracted from in-app content (album art, book cover, etc.) to create a contextual scheme.
+操作系统从用户壁纸中提取种子色并生成配色方案。**Android：** 在 **Android 12+（API 31+）** 上使用 `dynamicLightColorScheme` / `dynamicDarkColorScheme`。**Web：** 浏览器**没有**等效的壁纸动态配色 API；你可以通过库从**内容**（如图片）中派生种子色，但这是应用特定的行为，而非系统级壁纸主题。
 
-### Generating a Scheme with JavaScript
+### 基于内容
+
+从应用内内容（专辑封面、书籍封面等）中提取种子色，以创建上下文相关的配色方案。
+
+### 使用 JavaScript 生成配色方案
 
 ```javascript
 import {
@@ -193,7 +195,7 @@ const theme = themeFromSourceColor(argbFromHex('#6750A4'));
 applyTheme(theme, { target: document.body, dark: false });
 ```
 
-### Manual CSS Generation from Seed
+### 从种子色手动生成 CSS
 
 ```javascript
 import {
@@ -250,9 +252,9 @@ function applyScheme(seedHex, isDark = false) {
 }
 ```
 
-## Color Harmonization
+## 色彩协调
 
-When integrating custom brand colors that don't come from the seed, use harmonization to blend them into the tonal system:
+当集成不来自种子色的自定义品牌色时，使用色彩协调将其融入色调系统：
 
 ```javascript
 import { Blend } from '@material/material-color-utilities';
@@ -261,27 +263,28 @@ import { Blend } from '@material/material-color-utilities';
 const harmonized = Blend.harmonize(customColorArgb, primaryColorArgb);
 ```
 
-This shifts the custom color's hue slightly toward the scheme's primary, making it feel cohesive without losing its identity.
+这会将自定义颜色的色相略微偏向配色方案的主色，使其在保持自身特征的同时融入整体。
 
-## User-Controlled Contrast (May 2025)
+## 用户可控对比度（2025 年 5 月）
 
-MD3 now supports 3 contrast levels:
-- **Standard** (0.0): Default contrast
-- **Medium** (0.5): Increased tonal distance between roles
-- **High** (1.0): Maximum tonal distance for vision accessibility
+MD3 现支持 3 个对比度级别：
+- **标准**（0.0）：默认对比度
+- **中等**（0.5）：增加角色间的色调距离
+- **高**（1.0）：最大色调距离，用于视觉无障碍
 
 ```javascript
 // Generate high contrast scheme
 const scheme = new SchemeContent(hct, isDark, 1.0); // 1.0 = high contrast
 ```
 
-The contrast parameter adjusts the tonal distance between paired roles, increasing legibility without changing the overall color feel.
+对比度参数调整配对角色之间的色调距离，在不改变整体色彩感觉的前提下提高可读性。
 
-## Baseline Color Scheme (Default Values)
+## 基准配色方案（默认值）
 
-The static baseline scheme for products not using dynamic color:
+未使用动态配色的产品的静态基准方案：
 
-### Light Theme
+### 亮色主题
+
 ```css
 :root {
   --md-sys-color-primary: #6750A4;
@@ -318,7 +321,8 @@ The static baseline scheme for products not using dynamic color:
 }
 ```
 
-### Dark Theme
+### 暗色主题
+
 ```css
 @media (prefers-color-scheme: dark) {
   :root {
@@ -355,4 +359,95 @@ The static baseline scheme for products not using dynamic color:
     --md-sys-color-inverse-primary: #6750A4;
   }
 }
+```
+
+## @m3e/react 与动态配色
+
+`@m3e/react` 完全兼容上述所有 `--md-sys-color-*` CSS 自定义属性令牌。使用 `@material/material-color-utilities` 生成的配色方案可以直接应用于 `@m3e/react` 组件。色彩令牌方法是框架无关的（基于 CSS 自定义属性），因此无论你使用 React、Vue 还是原生 Web Components，都可以统一应用。
+
+### 在 @m3e/react 中应用动态配色
+
+```tsx
+// @m3e/react（推荐）
+import { M3eTheme } from "@m3e/react/theme";
+import { M3eButton } from "@m3e/react/button";
+import { M3eCard } from "@m3e/react/card";
+import { argbFromHex, hexFromArgb, SchemeContent, Hct } from '@material/material-color-utilities';
+import { useEffect } from "react";
+
+function applyM3eTheme(seedHex: string, isDark = false, contrast = 0.0) {
+  const hct = Hct.fromInt(argbFromHex(seedHex));
+  const scheme = new SchemeContent(hct, isDark, contrast);
+  const root = document.documentElement;
+
+  // 设置所有色彩令牌 — @m3e/react 自动读取
+  root.style.setProperty('--md-sys-color-primary', hexFromArgb(scheme.primary));
+  root.style.setProperty('--md-sys-color-on-primary', hexFromArgb(scheme.onPrimary));
+  root.style.setProperty('--md-sys-color-primary-container', hexFromArgb(scheme.primaryContainer));
+  root.style.setProperty('--md-sys-color-on-primary-container', hexFromArgb(scheme.onPrimaryContainer));
+  root.style.setProperty('--md-sys-color-secondary', hexFromArgb(scheme.secondary));
+  root.style.setProperty('--md-sys-color-on-secondary', hexFromArgb(scheme.onSecondary));
+  root.style.setProperty('--md-sys-color-secondary-container', hexFromArgb(scheme.secondaryContainer));
+  root.style.setProperty('--md-sys-color-on-secondary-container', hexFromArgb(scheme.onSecondaryContainer));
+  root.style.setProperty('--md-sys-color-tertiary', hexFromArgb(scheme.tertiary));
+  root.style.setProperty('--md-sys-color-on-tertiary', hexFromArgb(scheme.onTertiary));
+  root.style.setProperty('--md-sys-color-tertiary-container', hexFromArgb(scheme.tertiaryContainer));
+  root.style.setProperty('--md-sys-color-on-tertiary-container', hexFromArgb(scheme.onTertiaryContainer));
+  root.style.setProperty('--md-sys-color-surface', hexFromArgb(scheme.surface));
+  root.style.setProperty('--md-sys-color-on-surface', hexFromArgb(scheme.onSurface));
+  root.style.setProperty('--md-sys-color-surface-container', hexFromArgb(scheme.surfaceContainer));
+  root.style.setProperty('--md-sys-color-outline', hexFromArgb(scheme.outline));
+  root.style.setProperty('--md-sys-color-outline-variant', hexFromArgb(scheme.outlineVariant));
+  // ... 其余令牌同理
+}
+
+export default function ThemedApp() {
+  useEffect(() => {
+    // 应用品牌色主题
+    applyM3eTheme('#6750A4');
+  }, []);
+
+  return (
+    <M3eTheme>
+      <M3eButton variant="filled">主题化按钮</M3eButton>
+      <M3eCard variant="elevated">主题化卡片</M3eCard>
+    </M3eTheme>
+  );
+}
+```
+
+### 从图片提取动态配色
+
+`@m3e/react` 组件会自动响应 CSS 令牌变化，因此从图片提取种子色后只需更新令牌即可：
+
+```javascript
+import { QuantizerCelebi, Score, argbFromRgb, hexFromArgb } from '@material/material-color-utilities';
+
+async function themeFromImage(imageUrl) {
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.src = imageUrl;
+  await img.decode();
+
+  const canvas = document.createElement('canvas');
+  canvas.width = img.width;
+  canvas.height = img.height;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(img, 0, 0);
+
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const pixels = [];
+  for (let i = 0; i < imageData.data.length; i += 4) {
+    pixels.push(argbFromRgb(imageData.data[i], imageData.data[i+1], imageData.data[i+2]));
+  }
+
+  const quantized = QuantizerCelebi.quantize(pixels, 128);
+  const scored = Score.score(quantized);
+  return hexFromArgb(scored[0]);
+}
+
+// 用法：从专辑封面提取主题色
+const seed = await themeFromImage('/album-cover.jpg');
+applyM3eTheme(seed);
+// @m3e/react 所有组件自动更新色彩
 ```

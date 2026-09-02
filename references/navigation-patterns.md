@@ -1,18 +1,18 @@
-# MD3 Navigation Patterns
+# MD3 导航模式
 
-Guide for choosing and implementing Material Design 3 navigation components.
+用于选择和实现 Material Design 3 导航组件的指南。
 
-## Jetpack Compose (primary)
+## Jetpack Compose（主要）
 
-Use **`androidx.compose.material3`**: `NavigationBar`, `NavigationRail`, `NavigationDrawerItem`, `ModalNavigationDrawer`, `DismissibleNavigationDrawer`, `PermanentNavigationDrawer`, `NavigationBarItem`, `NavigationRailItem`, top app bars (`TopAppBar`, `CenterAlignedTopAppBar`, `LargeTopAppBar`, expressive variants per BOM), and **`Scaffold`** (`bottomBar`, `floatingActionButton`, `snackbarHost`).
+使用 **`androidx.compose.material3`**：`NavigationBar`、`NavigationRail`、`NavigationDrawerItem`、`ModalNavigationDrawer`、`DismissibleNavigationDrawer`、`PermanentNavigationDrawer`、`NavigationBarItem`、`NavigationRailItem`、顶部应用栏（`TopAppBar`、`CenterAlignedTopAppBar`、`LargeTopAppBar`，以及按 BOM 提供的表现力变体），以及 **`Scaffold`**（`bottomBar`、`floatingActionButton`、`snackbarHost`）。
 
-Wire destinations with **Navigation Compose** (`NavHost`, `composable`, `rememberNavController`). For **adaptive** UIs, use **`calculateWindowSizeClass`**, **`androidx.compose.material3.adaptive`**, or **`currentWindowAdaptiveInfo`** / **`NavigableListDetailPaneScaffold`** (names and packages depend on your BOM — check [Android Developers](https://developer.android.com/jetpack/androidx/releases/compose-material3)).
+使用 **Navigation Compose**（`NavHost`、`composable`、`rememberNavController`）连接目标页面。对于**自适应** UI，使用 **`calculateWindowSizeClass`**、**`androidx.compose.material3.adaptive`** 或 **`currentWindowAdaptiveInfo`** / **`NavigableListDetailPaneScaffold`**（名称和包取决于所用的 BOM — 请查阅 [Android Developers](https://developer.android.com/jetpack/androidx/releases/compose-material3)）。
 
-Material's [I/O 2026 update](https://m3.material.io/blog/whats-new-at-io26) adds expressive/adaptive emphasis:
+Material 的 [I/O 2026 更新](https://m3.material.io/blog/whats-new-at-io26)增加了表现力/自适应的重点：
 
-- Prefer expressive/adaptive scaffolds for mobile, desktop, foldables, watches, and XR rather than scaling one phone navigation model upward.
-- Expressive search and search app bars have refreshed visual style, motion, and more flexible trailing icon behavior. Use current Compose Material3 APIs where available; use web/CSS approximations only when targeting web.
-- Keep navigation spacing on the 8dp spacing system so rail/drawer/app-bar gaps can adapt by device class and density.
+- 优先为手机、桌面端、折叠屏、手表和 XR 使用表现力/自适应脚手架，而不是将单一手机导航模式向上扩展。
+- 表现力搜索和搜索应用栏具有刷新的视觉风格、动效和更灵活的尾随图标行为。在可用的情况下使用当前的 Compose Material3 API；仅在面向 Web 时使用 web/CSS 近似方案。
+- 保持导航间距使用 8dp 间距系统，以便侧栏/抽屉/应用栏间距可以根据设备类别和密度自适应。
 
 ```kotlin
 // Conceptual — adapt routes and selection to your app
@@ -38,13 +38,13 @@ Scaffold(
 }
 ```
 
-**Web (limited):** The HTML/`@material/web` sections below remain useful for token-backed sites; [Material Web is maintenance-only](https://m3.material.io/develop/web).
+**Web（有限）：** 下方的 HTML/`@material/web` 部分对于基于 token 的网站仍然有用；[Material Web 仅处于维护状态](https://m3.material.io/develop/web)。
 
 ---
 
-## Navigation Component Selection
+## 导航组件选择
 
-### Decision Tree
+### 决策树
 
 ```
 How many primary destinations?
@@ -61,51 +61,37 @@ How many primary destinations?
     └── Navigation Drawer with sections
 ```
 
-### Quick Reference
+### 速查表
 
-| Component | Destinations | Screen Size | Persistence | Position |
+| 组件 | 目标页面数 | 屏幕尺寸 | 持久性 | 位置 |
 |-----------|-------------|-------------|-------------|----------|
-| Navigation Bar | 3–5 | Compact | Persistent | Bottom |
-| Navigation Rail | 3–7 | Medium | Persistent | Side (start) |
-| Navigation Drawer | Unlimited | Expanded+ | Standard or Modal | Side (start) |
-| Tabs | 2+ related views | Any | Persistent | Top (below app bar) |
-| Bottom App Bar | — (contextual actions) | Compact | Persistent | Bottom |
+| 底部导航栏 | 3–5 | 紧凑 | 持久 | 底部 |
+| 导航侧栏 | 3–7 | 中等 | 持久 | 侧边（起始） |
+| 导航抽屉 | 无限制 | 展开及以上 | 标准或模态 | 侧边（起始） |
+| 标签页 | 2+ 个相关视图 | 任意 | 持久 | 顶部（应用栏下方） |
+| 底部应用栏 | —（上下文操作） | 紧凑 | 持久 | 底部 |
 
-## Navigation Bar
+## 底部导航栏
 
-**Use when**: 3–5 primary destinations on compact (mobile) screens.
-**Position**: Bottom of screen, always visible.
+**使用场景**：紧凑（手机）屏幕上的 3–5 个主要目标页面。
+**位置**：屏幕底部，始终可见。
 
-### Anatomy
-- Fixed at bottom, full width
-- 3–5 navigation items with icon + label
-- Active item shows filled icon + indicator pill
-- Height: 80dp
+> **@m3e/react 等价元素：** `M3eNavBar`。推荐优先使用 @m3e/react。
 
-### Implementation
+```tsx
+// @m3e/react（推荐）
+import { M3eNavBar, M3eNavBarItem, M3eIcon } from "@m3e/react/nav-bar";
 
-```html
-<md-navigation-bar active-index="0">
-  <md-navigation-tab label="Home" active-icon="home" inactive-icon="home">
-    <md-icon slot="active-icon">home</md-icon>
-    <md-icon slot="inactive-icon">home</md-icon>
-  </md-navigation-tab>
-  <md-navigation-tab label="Search">
-    <md-icon slot="active-icon">search</md-icon>
-    <md-icon slot="inactive-icon">search</md-icon>
-  </md-navigation-tab>
-  <md-navigation-tab label="Notifications">
-    <md-icon slot="active-icon">notifications</md-icon>
-    <md-icon slot="inactive-icon">notifications</md-icon>
-  </md-navigation-tab>
-  <md-navigation-tab label="Profile">
-    <md-icon slot="active-icon">person</md-icon>
-    <md-icon slot="inactive-icon">person</md-icon>
-  </md-navigation-tab>
-</md-navigation-bar>
+<M3eNavBar activeIndex={0}>
+  <M3eNavBarItem label="Home" activeIcon="home" inactiveIcon="home" />
+  <M3eNavBarItem label="Search" activeIcon="search" inactiveIcon="search" />
+  <M3eNavBarItem label="Notifications" activeIcon="notifications" inactiveIcon="notifications" />
+  <M3eNavBarItem label="Profile" activeIcon="person" inactiveIcon="person" />
+</M3eNavBar>
 ```
 
-### Styling
+
+### 样式
 
 ```css
 md-navigation-bar {
@@ -113,120 +99,59 @@ md-navigation-bar {
 }
 ```
 
-### Guidelines
-- Always show labels (don't use icon-only)
-- Use filled icons for active state, outlined for inactive
-- Don't use for fewer than 3 or more than 5 destinations
-- Hide on scroll down in content-heavy screens (optional)
-- Elevation level 2 (3dp)
+### 指南
+- 始终显示标签（不要仅使用图标）
+- 激活状态使用填充图标，未激活状态使用轮廓图标
+- 不要在少于 3 个或多于 5 个目标页面时使用
+- 在内容密集的屏幕中向下滚动时隐藏（可选）
+- 海拔层级 2（3dp）
 
-## Navigation Rail
+## 导航侧栏
 
-**Use when**: 3–7 primary destinations on medium screens (tablets).
-**Position**: Start edge (left in LTR), always visible.
+**使用场景**：中等屏幕（平板）上的 3–7 个主要目标页面。
+**位置**：起始边缘（LTR 中为左侧），始终可见。
 
-### Anatomy
-- Width: 80dp
-- Optional FAB at top
-- Navigation items vertically stacked
-- Active item shows indicator pill
+### 结构
+- 宽度：80dp
+- 顶部可选 FAB
+- 导航项垂直堆叠
+- 激活项显示指示器药丸
 
-### Implementation
+### 实现
 
-```html
-<nav class="md3-nav-rail" aria-label="Main navigation">
-  <!-- Optional FAB -->
-  <md-fab size="small" variant="tertiary" aria-label="Compose">
-    <md-icon slot="icon">edit</md-icon>
-  </md-fab>
+```tsx
+// @m3e/react（推荐）
+import { M3eNavRail, M3eNavRailItem, M3eFab, M3eIcon } from "@m3e/react/nav-rail";
 
-  <div class="md3-nav-rail__items" role="tablist">
-    <a href="/" class="md3-nav-rail__item" role="tab" aria-selected="true" aria-current="page">
-      <div class="md3-nav-rail__indicator">
-        <md-icon>home</md-icon>
-      </div>
-      <span class="md3-nav-rail__label">Home</span>
-    </a>
-    <a href="/search" class="md3-nav-rail__item" role="tab" aria-selected="false">
-      <div class="md3-nav-rail__indicator">
-        <md-icon>search</md-icon>
-      </div>
-      <span class="md3-nav-rail__label">Search</span>
-    </a>
-    <a href="/settings" class="md3-nav-rail__item" role="tab" aria-selected="false">
-      <div class="md3-nav-rail__indicator">
-        <md-icon>settings</md-icon>
-      </div>
-      <span class="md3-nav-rail__label">Settings</span>
-    </a>
-  </div>
-</nav>
+<M3eNavRail>
+  <M3eFab slot="fab" size="small" variant="tertiary" ariaLabel="新建">
+    <M3eIcon slot="icon">edit</M3eIcon>
+  </M3eFab>
+  <M3eNavRailItem label="首页" active activeIcon="home" inactiveIcon="home" />
+  <M3eNavRailItem label="搜索" activeIcon="search" inactiveIcon="search" />
+  <M3eNavRailItem label="设置" activeIcon="settings" inactiveIcon="settings" />
+</M3eNavRail>
 ```
 
-```css
-.md3-nav-rail {
-  width: 80px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 12px 0;
-  gap: 12px;
-  background: var(--md-sys-color-surface);
-  border-right: 1px solid var(--md-sys-color-outline-variant);
-}
 
-.md3-nav-rail__items {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  align-items: center;
-}
+> **@material/web 回退：** `@material/web` 没有提供导航侧栏组件。对于不使用 `@m3e/react` 的项目，需要自行实现或使用其他库。
 
-.md3-nav-rail__item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  text-decoration: none;
-  color: var(--md-sys-color-on-surface-variant);
-  font: var(--md-sys-typescale-label-medium);
-  cursor: pointer;
-  width: 56px;
-}
+### 指南
+- 将项目对齐到顶部（在可选 FAB 下方）
+- 始终显示标签（可以隐藏，但建议显示）
+- 顶部 FAB 可选但常见
+- 海拔层级 0
 
-.md3-nav-rail__indicator {
-  width: 56px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--md-sys-shape-corner-full);
-}
+## 导航抽屉
 
-.md3-nav-rail__item[aria-selected="true"] .md3-nav-rail__indicator {
-  background: var(--md-sys-color-secondary-container);
-  color: var(--md-sys-color-on-secondary-container);
-}
+**使用场景**：目标页面众多、展开屏幕或深层级结构。
+**位置**：起始边缘，标准（持久）或模态（覆盖层）。
 
-.md3-nav-rail__item[aria-selected="true"] {
-  color: var(--md-sys-color-on-surface);
-}
-```
+> **@m3e/react 推荐：** 使用 `M3eDrawerContainer`（`import { M3eDrawerContainer } from "@m3e/react/drawer-container"`）。支持响应式滑动抽屉，在不同断点自动切换标准/模态模式。
 
-### Guidelines
-- Align items to top (below optional FAB)
-- Show labels always (optional to hide, but recommended to show)
-- FAB at top is optional but common
-- Elevation level 0
+### 标准抽屉（持久）
 
-## Navigation Drawer
-
-**Use when**: Many destinations, expanded screens, or deep hierarchies.
-**Position**: Start edge, standard (persistent) or modal (overlay).
-
-### Standard Drawer (Persistent)
-
-Always visible alongside content. Width: 360dp.
+与内容并排始终可见。宽度：360dp。
 
 ```html
 <div class="md3-layout">
@@ -255,9 +180,9 @@ Always visible alongside content. Width: 360dp.
 </div>
 ```
 
-### Modal Drawer (Overlay)
+### 模态抽屉（覆盖层）
 
-Overlays content with a scrim. Used on smaller screens or when content space is limited.
+带有遮罩层覆盖内容。用于较小屏幕或内容空间有限时。
 
 ```html
 <md-navigation-drawer type="modal" id="nav-drawer">
@@ -273,99 +198,89 @@ Overlays content with a scrim. Used on smaller screens or when content space is 
 </script>
 ```
 
-### Guidelines
-- Standard drawer uses `surface-container` background
-- Modal drawer has elevation level 1 and scrim overlay
-- Group destinations with dividers and section headers
-- Active item uses `secondary-container` background
-- Shape: `large` on end corners (right edge in LTR)
+### 指南
+- 标准抽屉使用 `surface-container` 背景
+- 模态抽屉具有海拔层级 1 和遮罩层覆盖
+- 使用分隔线和分区标题对目标页面分组
+- 激活项使用 `secondary-container` 背景
+- 形状：末端圆角使用 `large`（LTR 中为右边缘）
 
-## Top App Bar
+## 顶部应用栏
 
-**Use when**: Every screen needs a title and optional actions.
+**使用场景**：每个页面都需要标题和可选操作。
 
-**I/O 2026 note:** Search app bars are part of the current expressive search guidance. In Compose, check your Material3 BOM for expressive app bar and search APIs before hand-rolling. For web, combine a token-backed top app bar with a custom search field/view because Material Web does not expose full expressive search parity.
+**I/O 2026 说明：** 搜索应用栏是当前表现力搜索指南的一部分。在 Compose 中，在自行实现之前请检查 Material3 BOM 中的表现力应用栏和搜索 API。对于 Web，将基于 token 的顶部应用栏与自定义搜索字段/视图结合使用，因为 Material Web 未提供完整的表现力搜索对等功能。
 
-### Variants
+### 变体
 
-| Variant | Title | Height | Scroll Behavior |
+| 变体 | 标题 | 高度 | 滚动行为 |
 |---------|-------|--------|----------------|
-| Center-aligned | Center | 64dp | Elevates to level 2 on scroll |
-| Small | Start-aligned | 64dp | Elevates to level 2 on scroll |
-| Medium | Bottom, start-aligned | 112dp | Collapses to 64dp on scroll |
-| Large | Bottom, start-aligned | 152dp | Collapses to 64dp on scroll |
+| 居中对齐 | 居中 | 64dp | 滚动时提升至层级 2 |
+| 小型 | 起始对齐 | 64dp | 滚动时提升至层级 2 |
+| 中型 | 底部，起始对齐 | 112dp | 滚动时收缩至 64dp |
+| 大型 | 底部，起始对齐 | 152dp | 滚动时收缩至 64dp |
 
-### Implementation
+### 实现
 
-```html
-<!-- Small app bar -->
-<header class="md3-top-app-bar">
-  <md-icon-button aria-label="Open menu">
-    <md-icon>menu</md-icon>
-  </md-icon-button>
-  <h1 class="md3-top-app-bar__title">Page Title</h1>
-  <md-icon-button aria-label="Search">
-    <md-icon>search</md-icon>
-  </md-icon-button>
-  <md-icon-button aria-label="More options">
-    <md-icon>more_vert</md-icon>
-  </md-icon-button>
-</header>
+```tsx
+// @m3e/react（推荐）
+import { M3eAppBar, M3eIconButton, M3eIcon } from "@m3e/react/app-bar";
 
-<!-- Medium app bar (collapsed state shown; expand on scroll-to-top) -->
-<header class="md3-top-app-bar md3-top-app-bar--medium">
-  <div class="md3-top-app-bar__row">
-    <md-icon-button aria-label="Back"><md-icon>arrow_back</md-icon></md-icon-button>
-    <span class="md3-top-app-bar__title-collapsed"></span>
-    <md-icon-button aria-label="More"><md-icon>more_vert</md-icon></md-icon-button>
-  </div>
-  <div class="md3-top-app-bar__expanded-title">
-    <h1>Page Title</h1>
-  </div>
-</header>
+{/* 小型应用栏 */}
+<M3eAppBar variant="small">
+  <M3eIconButton slot="navigation" ariaLabel="打开菜单">
+    <M3eIcon>menu</M3eIcon>
+  </M3eIconButton>
+  <span slot="title">页面标题</span>
+  <M3eIconButton slot="action" ariaLabel="搜索">
+    <M3eIcon>search</M3eIcon>
+  </M3eIconButton>
+  <M3eIconButton slot="action" ariaLabel="更多选项">
+    <M3eIcon>more_vert</M3eIcon>
+  </M3eIconButton>
+</M3eAppBar>
+
+{/* 中型应用栏（可折叠） */}
+<M3eAppBar variant="medium">
+  <M3eIconButton slot="navigation" ariaLabel="返回">
+    <M3eIcon>arrow_back</M3eIcon>
+  </M3eIconButton>
+  <span slot="title">页面标题</span>
+  <M3eIconButton slot="action" ariaLabel="更多">
+    <M3eIcon>more_vert</M3eIcon>
+  </M3eIconButton>
+</M3eAppBar>
 ```
 
-```css
-.md3-top-app-bar {
-  display: flex;
-  align-items: center;
-  height: 64px;
-  padding: 0 4px;
-  background: var(--md-sys-color-surface);
-  color: var(--md-sys-color-on-surface);
-}
 
-.md3-top-app-bar__title {
-  flex: 1;
-  padding: 0 12px;
-  font: var(--md-sys-typescale-title-large);
-  margin: 0;
-}
+> **@material/web 回退：** `@material/web` 没有提供应用栏组件。对于不使用 `@m3e/react` 的项目，需要自行实现或使用其他库。
 
-/* Scrolled state: elevate */
-.md3-top-app-bar--scrolled {
-  background: var(--md-sys-color-surface-container);
-}
-```
-
-### Scroll Behavior
+### 滚动行为
 
 ```javascript
-// Elevate app bar on scroll
-const appBar = document.querySelector('.md3-top-app-bar');
+// 滚动时提升应用栏层级
+const appBar = document.querySelector('.md3-app-bar');
 window.addEventListener('scroll', () => {
-  appBar.classList.toggle('md3-top-app-bar--scrolled', window.scrollY > 0);
+  // M3eAppBar 内部会自动处理滚动状态
+  // 如需自定义，可监听 scroll 事件
+  if (window.scrollY > 0) {
+    appBar.setAttribute('elevated', '');
+  } else {
+    appBar.removeAttribute('elevated');
+  }
 });
 ```
 
-## Tabs
+## 标签页
 
-**Use when**: Switching between related content at the same hierarchy level.
+**使用场景**：在同一层级的相关页面之间切换。
 
-### Primary vs Secondary
+> **@m3e/react 等价元素：** `M3eTabs`（`import { M3eTabs } from "@m3e/react/tabs"`）。
 
-- **Primary tabs**: Top-level content switching (Flights / Hotels / Explore)
-- **Secondary tabs**: Sub-sections within primary content
+### 主要与次要
+
+- **主要标签页**：顶级内容切换（航班 / 酒店 / 探索）
+- **次要标签页**：主要内容内的子分区
 
 ```html
 <!-- Primary tabs -->
@@ -386,7 +301,7 @@ window.addEventListener('scroll', () => {
 </md-tabs>
 ```
 
-### Tab + Panel Connection
+### 标签页 + 面板关联
 
 ```html
 <md-tabs id="my-tabs">
@@ -413,11 +328,11 @@ window.addEventListener('scroll', () => {
 </script>
 ```
 
-## Responsive Navigation Pattern
+## 响应式导航模式
 
-The key MD3 pattern: navigation component transforms across breakpoints.
+关键的 MD3 模式：导航组件在不同断点之间转换。
 
-### Mobile → Tablet → Desktop
+### 手机 → 平板 → 桌面
 
 ```
 Compact (<600dp):   Navigation Bar (bottom)
@@ -425,13 +340,16 @@ Medium (600–839dp): Navigation Rail (side)
 Expanded (840dp+):  Navigation Drawer (side, standard)
 ```
 
-### CSS Implementation
+### CSS 实现
 
 ```css
-/* Hide all nav variants by default */
-.md3-nav-bar,
+/* 使用 @m3e/react 组件的响应式切换：
+   M3eNavBar（紧凑）、M3eNavRail（中等）、M3eDrawerContainer（展开+）
+   组件自身处理样式，此处仅控制布局可见性 */
+
+.md3-nav-drawer-wrapper,
 .md3-nav-rail,
-.md3-nav-drawer { display: none; }
+.md3-nav-bar { display: none; }
 
 /* Compact: show bottom navigation bar */
 @media (max-width: 599px) {
@@ -447,71 +365,17 @@ Expanded (840dp+):  Navigation Drawer (side, standard)
 
 /* Expanded+: show navigation drawer */
 @media (min-width: 840px) {
-  .md3-nav-drawer { display: flex; }
+  .md3-nav-drawer-wrapper { display: flex; }
   .md3-app { flex-direction: row; }
 }
 ```
 
-### Complete Responsive Shell
+### 完整响应式外壳（@m3e/react 版）
 
-```html
-<div class="md3-app">
-  <!-- Navigation drawer (expanded+) -->
-  <aside class="md3-nav-drawer">
-    <md-navigation-drawer opened>
-      <div slot="headline">My App</div>
-      <md-list>
-        <md-list-item type="button" active>
-          <md-icon slot="start">home</md-icon>Home
-        </md-list-item>
-        <md-list-item type="button">
-          <md-icon slot="start">search</md-icon>Search
-        </md-list-item>
-        <md-list-item type="button">
-          <md-icon slot="start">settings</md-icon>Settings
-        </md-list-item>
-      </md-list>
-    </md-navigation-drawer>
-  </aside>
-
-  <!-- Navigation rail (medium) -->
-  <nav class="md3-nav-rail" aria-label="Main">
-    <md-fab size="small" aria-label="New"><md-icon slot="icon">add</md-icon></md-fab>
-    <a class="md3-nav-rail__item active"><md-icon>home</md-icon><span>Home</span></a>
-    <a class="md3-nav-rail__item"><md-icon>search</md-icon><span>Search</span></a>
-    <a class="md3-nav-rail__item"><md-icon>settings</md-icon><span>Settings</span></a>
-  </nav>
-
-  <!-- Main content -->
-  <main class="md3-main">
-    <header class="md3-top-app-bar">
-      <md-icon-button class="md3-menu-btn" aria-label="Menu"><md-icon>menu</md-icon></md-icon-button>
-      <h1 class="md3-top-app-bar__title">Home</h1>
-    </header>
-    <div class="md3-body">
-      <!-- Page content -->
-    </div>
-  </main>
-
-  <!-- Navigation bar (compact) -->
-  <md-navigation-bar class="md3-nav-bar">
-    <md-navigation-tab label="Home" active>
-      <md-icon slot="active-icon">home</md-icon>
-      <md-icon slot="inactive-icon">home</md-icon>
-    </md-navigation-tab>
-    <md-navigation-tab label="Search">
-      <md-icon slot="active-icon">search</md-icon>
-      <md-icon slot="inactive-icon">search</md-icon>
-    </md-navigation-tab>
-    <md-navigation-tab label="Settings">
-      <md-icon slot="active-icon">settings</md-icon>
-      <md-icon slot="inactive-icon">settings</md-icon>
-    </md-navigation-tab>
-  </md-navigation-bar>
-</div>
-```
+使用 `@m3e/react` 组件构建完整的响应式应用外壳：
 
 ```css
+/* 应用外壳基础布局 */
 .md3-app {
   display: flex;
   min-height: 100vh;
@@ -519,28 +383,154 @@ Expanded (840dp+):  Navigation Drawer (side, standard)
   color: var(--md-sys-color-on-surface);
 }
 
-.md3-main { flex: 1; display: flex; flex-direction: column; }
-.md3-body { flex: 1; padding: 16px; }
+.md3-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
 
-/* Compact */
+.md3-body {
+  flex: 1;
+  padding: 16px;
+}
+
+/* 默认隐藏所有导航变体 */
+.md3-nav-drawer-wrapper,
+.md3-nav-rail-m3e,
+.md3-nav-bar-m3e {
+  display: none;
+}
+
+/* 紧凑屏幕：显示底部导航栏 */
 @media (max-width: 599px) {
-  .md3-app { flex-direction: column; }
-  .md3-nav-rail, .md3-nav-drawer { display: none; }
-  .md3-nav-bar { display: flex; order: 1; }
-  .md3-menu-btn { display: none; }
+  .md3-app {
+    flex-direction: column;
+  }
+  .md3-nav-bar-m3e {
+    display: flex;
+    order: 1;
+  }
 }
 
-/* Medium */
+/* 中等屏幕：显示导航侧栏 */
 @media (min-width: 600px) and (max-width: 839px) {
-  .md3-nav-bar, .md3-nav-drawer { display: none; }
-  .md3-nav-rail { display: flex; }
-  .md3-menu-btn { display: none; }
+  .md3-nav-rail-m3e {
+    display: flex;
+  }
 }
 
-/* Expanded+ */
+/* 展开+屏幕：显示导航抽屉 */
 @media (min-width: 840px) {
-  .md3-nav-bar, .md3-nav-rail { display: none; }
-  .md3-nav-drawer { display: flex; }
-  .md3-menu-btn { display: none; }
+  .md3-nav-drawer-wrapper {
+    display: flex;
+  }
+}
+```
+
+## @m3e/react 导航组件（推荐）
+
+`@m3e/react` 提供了比 `@material/web` 更完整的导航组件集合，真正支持 Material 3 Expressive。
+
+### 导航组件对照
+
+| 组件 | @m3e/react（推荐） | @material/web | 说明 |
+|------|----------|---------------|------|
+| 底部导航栏 | `M3eNavBar` | `md-navigation-bar` | 两者都有 |
+| 导航侧栏 | `M3eNavRail` | ❌ 无 | **@m3e 独有** |
+| 导航抽屉 | `M3eDrawerContainer` | `md-navigation-drawer` | @m3e 支持响应式滑动抽屉 |
+| 导航菜单 | `M3eNavMenu` | ❌ 无 | **@m3e 独有**，层级导航 |
+| 应用栏 | `M3eAppBar` | ❌ 无 | **@m3e 独有** |
+| 工具栏 | `M3eToolbar` | ❌ 无 | **@m3e 独有** |
+| 面包屑 | `M3eBreadcrumb` | ❌ 无 | **@m3e 独有** |
+
+### 导航侧栏（@m3e/react 独有）
+
+```tsx
+// @m3e/react（推荐）
+import { M3eNavRail, M3eNavRailItem, M3eIcon } from "@m3e/react/nav-rail";
+
+<M3eNavRail>
+  <M3eNavRailItem label="首页" active activeIcon="home" inactiveIcon="home" />
+  <M3eNavRailItem label="搜索" activeIcon="search" inactiveIcon="search" />
+  <M3eNavRailItem label="设置" activeIcon="settings" inactiveIcon="settings" />
+</M3eNavRail>
+```
+
+### 应用栏（@m3e/react 独有）
+
+```tsx
+// @m3e/react（推荐）
+import { M3eAppBar, M3eIconButton, M3eIcon } from "@m3e/react/app-bar";
+
+<M3eAppBar variant="small">
+  <M3eIconButton slot="navigation" ariaLabel="菜单">
+    <M3eIcon>menu</M3eIcon>
+  </M3eIconButton>
+  <span slot="title">页面标题</span>
+  <M3eIconButton slot="action" ariaLabel="搜索">
+    <M3eIcon>search</M3eIcon>
+  </M3eIconButton>
+</M3eAppBar>
+```
+
+### 响应式导航（@m3e/react 版）
+
+使用 `@m3e/react` 组件实现跨断点的自适应导航：
+
+```tsx
+// @m3e/react（推荐）
+import { M3eDrawerContainer, M3eNavMenu, M3eNavMenuItem, M3eIcon } from "@m3e/react";
+import { M3eNavRail, M3eNavRailItem } from "@m3e/react/nav-rail";
+import { M3eNavBar, M3eNavBarItem } from "@m3e/react/nav-bar";
+import { M3eAppBar, M3eIconButton } from "@m3e/react/app-bar";
+
+<div className="md3-app">
+  {/* 导航抽屉（展开+） */}
+  <aside className="md3-nav-drawer-wrapper">
+    <M3eDrawerContainer>
+      <M3eNavMenu>
+        <M3eNavMenuItem label="首页" active>
+          <M3eIcon slot="start">home</M3eIcon>
+        </M3eNavMenuItem>
+        <M3eNavMenuItem label="搜索">
+          <M3eIcon slot="start">search</M3eIcon>
+        </M3eNavMenuItem>
+        <M3eNavMenuItem label="设置">
+          <M3eIcon slot="start">settings</M3eIcon>
+        </M3eNavMenuItem>
+      </M3eNavMenu>
+    </M3eDrawerContainer>
+  </aside>
+
+  {/* 导航侧栏（中等） */}
+  <M3eNavRail className="md3-nav-rail-m3e" />
+
+  {/* 主内容 */}
+  <main className="md3-main">
+    <M3eAppBar>
+      <span slot="title">首页</span>
+    </M3eAppBar>
+    <div className="md3-body">{/* 页面内容 */}</div>
+  </main>
+
+  {/* 底部导航栏（紧凑） */}
+  <M3eNavBar className="md3-nav-bar-m3e" />
+</div>
+```
+
+```css
+/* 使用 @m3e/react 的响应式导航切换 */
+.md3-nav-drawer-wrapper,
+.md3-nav-rail,
+.md3-nav-bar { display: none; }
+
+@media (max-width: 599px) {
+  .md3-nav-bar { display: flex; }
+}
+@media (min-width: 600px) and (max-width: 839px) {
+  .md3-nav-rail { display: flex; }
+}
+@media (min-width: 840px) {
+  .md3-nav-drawer-wrapper { display: flex; }
 }
 ```

@@ -1,34 +1,74 @@
-# MD3 Component Catalog
+# MD3 组件目录
 
-Complete reference for Material Design 3 components. **Primary mappings:** Jetpack Compose (`androidx.compose.material3`) where most users ship UIs today; **web** uses `@material/web` element names and imports — [Material Web is maintenance-only](https://m3.material.io/develop/web).
+Material Design 3 组件完整参考。**主要映射：** Jetpack Compose (`androidx.compose.material3`) 是当前大多数用户发布 UI 的平台；**Web** 推荐使用 **`@m3e/react`**（React 项目首选，完整 TypeScript 支持和 React 惯用 API）；`@material/web` 已进入仅维护状态，组件较少。
 
-## Google I/O 2026 Component Updates
+**不推荐** MUI、MWC 等库 — 它们没有真正实现 M3E（Material 3 Expressive）。
 
-Material's [I/O 2026 update](https://m3.material.io/blog/whats-new-at-io26) highlights refreshed expressive guidance for **lists**, **menus**, **search**, and **search app bars**, with Jetpack Compose as the primary implementation path. When implementing these in Android:
+## Web 实现选择
 
-- Prefer current `androidx.compose.material3` components and verify expressive APIs against the active Material3 BOM.
-- Expect expressive variants to include richer visual style, motion, and flexible configuration.
-- Treat web implementations as spec-aligned approximations unless Material Web exposes an equivalent component; Material Web remains maintenance-only.
+| 实现库 | 元素前缀 | 包名 | Expressive 支持 | 状态 |
+|--------|---------|------|-----------------|------|
+| **@m3e/react（推荐）** | `M3e*` (React 组件) | `@m3e/react/{component}` | ✅ 完整 | 活跃开发 |
+| @material/web | `md-*` | `@material/web/{category}/{component}.js` | ❌ 无 | 仅维护 |
 
-## Actions
+> @m3e/web 提供等效的 Web Components 元素（`m3e-button`、`m3e-card` 等），适用于非 React 框架。详见 <https://matraic.github.io/m3e>。
 
-### Buttons
+**@m3e 独有的组件**（@material/web 不提供的）：
+- `M3eCard`、`M3eBadge`、`M3eTooltip`、`M3eSnackbar`、`M3eLoadingIndicator`
+- `M3eBottomSheet`、`M3eSearch`、`M3eAutocomplete`、`M3eSelect`
+- `M3eNavRail`、`M3eNavMenu`、`M3eAppBar`、`M3eToolbar`、`M3eBreadcrumb`
+- `M3eFabMenu`、`M3eSplitButton`、`M3eSegmentedButton`
+- `M3eDatepicker`、`M3eTimepicker`、`M3eCalendar`、`M3eDateInput`
+- `M3eSkeleton`、`M3eAvatar`、`M3eHeading`、`M3eShape`、`M3eTheme`
+- `M3eStepper`、`M3eTree`、`M3eToc`、`M3ePaginator`
+- `M3eExpansionPanel`、`M3eSplitPane`、`M3eContentPane`、`M3eSlideGroup`
+- `M3eDrawerContainer`、`M3eFormField`、`M3eTextareaAutosize`
 
-MD3 has 5 button types ordered by emphasis: Filled > Filled Tonal > Elevated > Outlined > Text.
+> **文档与示例：** <https://matraic.github.io/m3e>
 
-**General attributes** (shared by all button types):
+## Google I/O 2026 组件更新
 
-| Attribute | Type | Description |
+Material 的 [I/O 2026 更新](https://m3.material.io/blog/whats-new-at-io26) 重点刷新了 **列表**、**菜单**、**搜索** 和 **搜索应用栏** 的表现力指南，以 Jetpack Compose 作为主要实现路径。在 Android 中实现时：
+
+- 优先使用当前的 `androidx.compose.material3` 组件，并根据当前使用的 Material3 BOM 版本验证表现力 API。
+- 表现力变体预计将包含更丰富的视觉风格、动效和灵活的配置选项。
+- Web 实现推荐使用 `@m3e/react`，它原生支持 Expressive 特性；`@material/web` 仅为维护模式的规范对齐近似方案。
+
+## 操作
+
+### 按钮
+
+MD3 有 5 种按钮类型，按强调程度排列：Filled > Filled Tonal > Elevated > Outlined > Text。
+
+**通用属性**（所有按钮类型共享）：
+
+| 属性 | 类型 | 描述 |
 |-----------|------|-------------|
-| `disabled` | boolean | Disables the button |
-| `href` | string | Turns button into a link |
-| `target` | string | Link target (`_blank`, etc.) |
-| `trailing-icon` | boolean | Moves icon to trailing position |
-| `type` | string | Form type: `button`, `submit`, `reset` |
+| `disabled` | boolean | 禁用按钮 |
+| `href` | string | 将按钮转换为链接 |
+| `target` | string | 链接目标（`_blank` 等） |
+| `trailingIcon` | boolean | 将图标移动到末尾位置 |
+| `type` | string | 表单类型：`button`、`submit`、`reset` |
 
-#### Filled Button
-**Element**: `md-filled-button` | **Import**: `@material/web/button/filled-button.js`
-**Use when**: Primary action, highest emphasis.
+#### 填充按钮
+
+**使用场景**：主要操作，最高强调度。
+
+> **@m3e/react 推荐：** `M3eButton`（`@m3e/react/button`，设置 `variant="filled"`）。
+
+```tsx
+import { M3eButton } from '@m3e/react/button';
+
+<M3eButton variant="filled">Get started</M3eButton>
+<M3eButton variant="filled" href="/signup" icon="arrow_forward" trailingIcon>
+  Sign up
+</M3eButton>
+```
+
+<details>
+<summary>@material/web 备选</summary>
+
+**元素**：`md-filled-button` | **导入**：`@material/web/button/filled-button.js`
 
 ```html
 <md-filled-button>Get started</md-filled-button>
@@ -38,46 +78,116 @@ MD3 has 5 button types ordered by emphasis: Filled > Filled Tonal > Elevated > O
 </md-filled-button>
 ```
 
-**Customize**: `--md-filled-button-container-color`, `--md-filled-button-label-text-color`, `--md-filled-button-container-shape`, `--md-filled-button-container-height`
+**自定义**：`--md-filled-button-container-color`、`--md-filled-button-label-text-color`、`--md-filled-button-container-shape`、`--md-filled-button-container-height`
+</details>
 
-#### Filled Tonal Button
-**Element**: `md-filled-tonal-button` | **Import**: `@material/web/button/filled-tonal-button.js`
-**Use when**: Medium emphasis, softer than filled. Secondary actions alongside a filled button.
+#### 填充色调按钮
+
+**使用场景**：中等强调度，比填充按钮更柔和。适合与填充按钮并排放置的次要操作。
+
+> **@m3e/react 推荐：** `M3eButton`（`@m3e/react/button`，设置 `variant="tonal"`）。
+
+```tsx
+import { M3eButton } from '@m3e/react/button';
+
+<M3eButton variant="tonal">Save draft</M3eButton>
+```
+
+<details>
+<summary>@material/web 备选</summary>
+
+**元素**：`md-filled-tonal-button` | **导入**：`@material/web/button/filled-tonal-button.js`
 
 ```html
 <md-filled-tonal-button>Save draft</md-filled-tonal-button>
 ```
 
-**Customize**: `--md-filled-tonal-button-container-color`, `--md-filled-tonal-button-label-text-color`
+**自定义**：`--md-filled-tonal-button-container-color`、`--md-filled-tonal-button-label-text-color`
+</details>
 
-#### Elevated Button
-**Element**: `md-elevated-button` | **Import**: `@material/web/button/elevated-button.js`
-**Use when**: Medium emphasis with shadow. Use on colored backgrounds where tonal button blends in.
+#### 凸起按钮
+
+**使用场景**：带阴影的中等强调度按钮。适用于色调按钮会与背景融合的彩色背景上。
+
+> **@m3e/react 推荐：** `M3eButton`（`@m3e/react/button`，设置 `variant="elevated"`）。
+
+```tsx
+import { M3eButton } from '@m3e/react/button';
+
+<M3eButton variant="elevated">Add to cart</M3eButton>
+```
+
+<details>
+<summary>@material/web 备选</summary>
+
+**元素**：`md-elevated-button` | **导入**：`@material/web/button/elevated-button.js`
 
 ```html
 <md-elevated-button>Add to cart</md-elevated-button>
 ```
+</details>
 
-#### Outlined Button
-**Element**: `md-outlined-button` | **Import**: `@material/web/button/outlined-button.js`
-**Use when**: Medium emphasis, neutral. Good for secondary actions.
+#### 描边按钮
+
+**使用场景**：中等强调度，中性。适合次要操作。
+
+> **@m3e/react 推荐：** `M3eButton`（`@m3e/react/button`，设置 `variant="outlined"`）。
+
+```tsx
+import { M3eButton } from '@m3e/react/button';
+
+<M3eButton variant="outlined">Cancel</M3eButton>
+```
+
+<details>
+<summary>@material/web 备选</summary>
+
+**元素**：`md-outlined-button` | **导入**：`@material/web/button/outlined-button.js`
 
 ```html
 <md-outlined-button>Cancel</md-outlined-button>
 ```
 
-**Customize**: `--md-outlined-button-outline-color`, `--md-outlined-button-outline-width`
+**自定义**：`--md-outlined-button-outline-color`、`--md-outlined-button-outline-width`
+</details>
 
-#### Text Button
-**Element**: `md-text-button` | **Import**: `@material/web/button/text-button.js`
-**Use when**: Lowest emphasis. Inline actions, dialog actions, less important options.
+#### 文字按钮
+
+**使用场景**：最低强调度。内联操作、对话框操作、不太重要的选项。
+
+> **@m3e/react 推荐：** `M3eButton`（`@m3e/react/button`，设置 `variant="text"`）。
+
+```tsx
+import { M3eButton } from '@m3e/react/button';
+
+<M3eButton variant="text">Learn more</M3eButton>
+```
+
+<details>
+<summary>@material/web 备选</summary>
+
+**元素**：`md-text-button` | **导入**：`@material/web/button/text-button.js`
 
 ```html
 <md-text-button>Learn more</md-text-button>
 ```
+</details>
 
-#### Button Sizes (Expressive)
-Buttons now support 5 sizes: extra-small, small (default), medium, large, extra-large. Set via CSS:
+#### 按钮尺寸（表现力）
+
+按钮现支持 5 种尺寸：extra-small、small（默认）、medium、large、extra-large。
+
+```tsx
+<M3eButton variant="filled" size="xs">Extra Small</M3eButton>
+<M3eButton variant="filled" size="sm">Small (默认)</M3eButton>
+<M3eButton variant="filled" size="md">Medium</M3eButton>
+<M3eButton variant="filled" size="lg">Large</M3eButton>
+<M3eButton variant="filled" size="xl">Extra Large</M3eButton>
+```
+
+<details>
+<summary>@material/web 备选（通过 CSS 设置）</summary>
+
 ```css
 md-filled-button { --md-filled-button-container-height: 32px; } /* XS */
 md-filled-button { --md-filled-button-container-height: 40px; } /* S (default) */
@@ -85,12 +195,31 @@ md-filled-button { --md-filled-button-container-height: 48px; } /* M */
 md-filled-button { --md-filled-button-container-height: 56px; } /* L */
 md-filled-button { --md-filled-button-container-height: 64px; } /* XL */
 ```
+</details>
 
-**A11y**: Buttons have built-in button role. Use `aria-label` when using icon-only buttons. Minimum touch target 48x48dp.
+**无障碍**：按钮内置 button 角色。使用纯图标按钮时请使用 `aria-label`。最小触摸目标 48x48dp。
 
-### Button Group
-**Element**: `md-button-group` | **Import**: `@material/web/button/button-group.js`
-**Use when**: Grouping related actions together with connected visual treatment.
+### 按钮组
+
+**使用场景**：将相关操作组合在一起，使用连接的视觉处理方式。
+
+> **@m3e/react 推荐：** `M3eButtonGroup`（`@m3e/react/button-group`）。
+
+```tsx
+import { M3eButtonGroup } from '@m3e/react/button-group';
+import { M3eButton } from '@m3e/react/button';
+
+<M3eButtonGroup>
+  <M3eButton variant="outlined">Day</M3eButton>
+  <M3eButton variant="outlined">Week</M3eButton>
+  <M3eButton variant="outlined">Month</M3eButton>
+</M3eButtonGroup>
+```
+
+<details>
+<summary>@material/web 备选</summary>
+
+**元素**：`md-button-group` | **导入**：`@material/web/button/button-group.js`
 
 ```html
 <md-button-group>
@@ -99,16 +228,32 @@ md-filled-button { --md-filled-button-container-height: 64px; } /* XL */
   <md-outlined-button>Month</md-outlined-button>
 </md-button-group>
 ```
+</details>
 
-### FAB (Floating Action Button)
-**Element**: `md-fab` | **Import**: `@material/web/fab/fab.js`
-**Use when**: The single most important action on a screen.
+### 浮动操作按钮 (FAB)
 
-| Attribute | Type | Description |
+**使用场景**：屏幕上最重要的单个操作。
+
+> **@m3e/react 推荐：** `M3eFab`（`@m3e/react/fab`）。
+
+| 属性 | 类型 | 描述 |
 |-----------|------|-------------|
-| `size` | string | `small`, `medium` (default), `large` |
-| `variant` | string | `surface`, `primary`, `secondary`, `tertiary` |
-| `label` | string | Text label (for extended FAB) |
+| `size` | string | `small`、`medium`（默认）、`large` |
+| `variant` | string | `surface`、`primary`、`secondary`、`tertiary` |
+| `label` | string | 文本标签（用于扩展 FAB） |
+
+```tsx
+import { M3eFab } from '@m3e/react/fab';
+
+<M3eFab aria-label="Create new" icon="add" />
+
+<M3eFab size="small" variant="tertiary" aria-label="Edit" icon="edit" />
+```
+
+<details>
+<summary>@material/web 备选</summary>
+
+**元素**：`md-fab` | **导入**：`@material/web/fab/fab.js`
 
 ```html
 <md-fab aria-label="Create new">
@@ -120,234 +265,352 @@ md-filled-button { --md-filled-button-container-height: 64px; } /* XL */
 </md-fab>
 ```
 
-**Customize**: `--md-fab-container-color`, `--md-fab-container-shape`, `--md-fab-icon-color`
-**A11y**: Always provide `aria-label` since FABs are icon-only.
+**自定义**：`--md-fab-container-color`、`--md-fab-container-shape`、`--md-fab-icon-color`
+</details>
 
-### Extended FAB
-**Element**: `md-extended-fab` | **Import**: `@material/web/fab/extended-fab.js`
-**Use when**: Primary action with explanatory text.
+**无障碍**：由于 FAB 通常为纯图标，请始终提供 `aria-label`。
+
+### 扩展 FAB
+
+**使用场景**：带说明文字的主要操作。
+
+> **@m3e/react 推荐：** `M3eFab`（`@m3e/react/fab`，设置 `extended` 和 `label`）。
+
+```tsx
+import { M3eFab } from '@m3e/react/fab';
+
+<M3eFab extended label="New message" icon="edit" />
+```
+
+<details>
+<summary>@material/web 备选</summary>
+
+**元素**：`md-extended-fab` | **导入**：`@material/web/fab/extended-fab.js`
 
 ```html
 <md-extended-fab label="New message">
   <md-icon slot="icon">edit</md-icon>
 </md-extended-fab>
 ```
+</details>
 
-### Icon Button
-**Element**: `md-icon-button` | **Import**: `@material/web/iconbutton/icon-button.js`
+### 图标按钮
 
-4 variants with separate elements:
+> **@m3e/react 推荐：** `M3eIconButton`（`@m3e/react/icon-button`）。
 
-| Variant | Element | Import |
+4 种变体：
+
+| 变体 | @m3e/react 组件 | @material/web 元素 |
 |---------|---------|--------|
-| Standard | `md-icon-button` | `@material/web/iconbutton/icon-button.js` |
-| Filled | `md-filled-icon-button` | `@material/web/iconbutton/filled-icon-button.js` |
-| Filled Tonal | `md-filled-tonal-icon-button` | `@material/web/iconbutton/filled-tonal-icon-button.js` |
-| Outlined | `md-outlined-icon-button` | `@material/web/iconbutton/outlined-icon-button.js` |
+| Standard | `M3eIconButton` | `md-icon-button` |
+| Filled | `M3eIconButton` (`variant="filled"`) | `md-filled-icon-button` |
+| Filled Tonal | `M3eIconButton` (`variant="tonal"`) | `md-filled-tonal-icon-button` |
+| Outlined | `M3eIconButton` (`variant="outlined"`) | `md-outlined-icon-button` |
 
-| Attribute | Type | Description |
+| 属性 | 类型 | 描述 |
 |-----------|------|-------------|
-| `toggle` | boolean | Enables toggle behavior |
-| `selected` | boolean | Selected state (when toggle) |
+| `toggle` | boolean | 启用切换行为 |
+| `selected` | boolean | 选中状态（当启用 toggle 时） |
+
+```tsx
+import { M3eIconButton } from '@m3e/react/icon-button';
+
+<M3eIconButton aria-label="Settings" icon="settings" />
+
+{/* 切换图标按钮（点赞/取消点赞） */}
+<M3eIconButton toggle aria-label="Favorite" icon="favorite_border" selectedIcon="favorite" />
+```
+
+<details>
+<summary>@material/web 备选</summary>
+
+**导入**：`@material/web/iconbutton/icon-button.js`（及各变体）
 
 ```html
 <md-icon-button aria-label="Settings">
   <md-icon>settings</md-icon>
 </md-icon-button>
 
-<!-- Toggle icon button (like/unlike) -->
+<!-- 切换图标按钮（点赞/取消点赞） -->
 <md-icon-button toggle aria-label="Favorite">
   <md-icon>favorite_border</md-icon>
   <md-icon slot="selected">favorite</md-icon>
 </md-icon-button>
 ```
+</details>
 
-**A11y**: Always provide `aria-label`. Toggle buttons should have descriptive labels for both states.
+**无障碍**：始终提供 `aria-label`。切换按钮应为两种状态都提供描述性标签。
 
-### Segmented Buttons
-**No @material/web element yet.** Implement with standard HTML + MD3 tokens:
+### 分段按钮
 
-```html
-<div class="md3-segmented-buttons" role="group" aria-label="View options">
-  <button class="md3-segmented-button md3-segmented-button--selected" aria-pressed="true">
-    <md-icon>view_list</md-icon> List
-  </button>
-  <button class="md3-segmented-button" aria-pressed="false">
-    <md-icon>grid_view</md-icon> Grid
-  </button>
-</div>
+**使用场景**：在 2–5 个互斥选项之间切换视图或排序方式。
+
+> **@m3e/react 推荐：** `M3eSegmentedButton`（`@m3e/react/segmented-button`）。
+
+| 属性 | 类型 | 描述 |
+|------|------|------|
+| `value` | string | 当前选中的分段值 |
+| `multiple` | boolean | 允许多选（默认 false） |
+| `disabled` | boolean | 禁用整个分段按钮组 |
+
+```tsx
+import { M3eSegmentedButton, M3eSegmentedButtonItem } from '@m3e/react/segmented-button';
+
+<M3eSegmentedButton value="list" aria-label="View options">
+  <M3eSegmentedButtonItem value="list" label="List" icon="view_list" />
+  <M3eSegmentedButtonItem value="grid" label="Grid" icon="grid_view" />
+  <M3eSegmentedButtonItem value="map" label="Map" icon="map" />
+</M3eSegmentedButton>
 ```
 
-```css
-.md3-segmented-buttons {
-  display: flex;
-  border: 1px solid var(--md-sys-color-outline);
-  border-radius: var(--md-sys-shape-corner-full);
-  overflow: hidden;
-}
-.md3-segmented-button {
-  flex: 1;
-  padding: 10px 16px;
-  border: none;
-  background: transparent;
-  color: var(--md-sys-color-on-surface);
-  cursor: pointer;
-  font: var(--md-sys-typescale-label-large);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-.md3-segmented-button--selected {
-  background: var(--md-sys-color-secondary-container);
-  color: var(--md-sys-color-on-secondary-container);
-}
+**无障碍**：内置 `group` 角色。提供 `aria-label` 描述用途。每个分段项自动具有 `aria-pressed` 状态。
+
+## 通信
+
+### 徽章
+
+**使用场景**：在图标或头像上显示未读计数、状态指示或通知数量。
+
+> **@m3e/react 推荐：** `M3eBadge`（`@m3e/react/badge`）。
+
+| 属性 | 类型 | 描述 |
+|------|------|------|
+| `content` | string/number | 徽章内容（数字或文本） |
+| `dot` | boolean | 仅显示圆点（无内容） |
+| `color` | string | 颜色变体（`error`、`primary`、`tertiary`） |
+| `max` | number | 最大值（超出显示 `max+`） |
+
+```tsx
+import { M3eBadge } from '@m3e/react/badge';
+
+{/* 带数字的徽章 */}
+<M3eBadge content={3}>
+  <M3eIcon>notifications</M3eIcon>
+</M3eBadge>
+
+{/* 仅圆点 */}
+<M3eBadge dot>
+  <M3eIcon>mail</M3eIcon>
+</M3eBadge>
+
+{/* 带最大值 */}
+<M3eBadge content={150} max={99}>
+  <M3eIcon>shopping_cart</M3eIcon>
+</M3eBadge>
 ```
 
-## Communication
+**无障碍**：使用 `aria-label` 为屏幕阅读器提供完整描述（例如 "3 条未读通知"）。
 
-### Badge
-**No @material/web element yet.** Implement with CSS:
+### 进度指示器
 
-```html
-<div class="md3-badge-container">
-  <md-icon>notifications</md-icon>
-  <span class="md3-badge md3-badge--large">3</span>
-</div>
-```
+**使用场景**：显示操作的进度状态。
 
-```css
-.md3-badge-container { position: relative; display: inline-flex; }
-.md3-badge {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  background: var(--md-sys-color-error);
-  color: var(--md-sys-color-on-error);
-  border-radius: var(--md-sys-shape-corner-full);
-  font: var(--md-sys-typescale-label-small);
-}
-.md3-badge--small { width: 6px; height: 6px; padding: 0; } /* dot only */
-.md3-badge--large { min-width: 16px; height: 16px; padding: 0 4px; text-align: center; }
-```
+> **@m3e/react 推荐：** `M3eLinearProgress`、`M3eCircularProgress`（`@m3e/react/progress`）。另有 `M3eLoadingIndicator`（`@m3e/react/loading-indicator`）。
 
-### Progress Indicator
-**Elements**: `md-linear-progress`, `md-circular-progress`
-**Import**: `@material/web/progress/linear-progress.js`, `@material/web/progress/circular-progress.js`
-
-| Attribute | Type | Description |
+| 属性 | 类型 | 描述 |
 |-----------|------|-------------|
-| `value` | number | Current progress (0–1) |
-| `max` | number | Maximum value (default 1) |
-| `indeterminate` | boolean | Shows indeterminate animation |
-| `four-color` | boolean | Four-color indeterminate variant |
+| `value` | number | 当前进度（0–1） |
+| `max` | number | 最大值（默认 1） |
+| `indeterminate` | boolean | 显示不确定动画 |
+| `fourColor` | boolean | 四色不确定变体 |
+
+```tsx
+import { M3eLinearProgress, M3eCircularProgress } from '@m3e/react/progress';
+
+{/* 确定进度 */}
+<M3eLinearProgress value={0.6} />
+<M3eCircularProgress value={0.75} />
+
+{/* 不确定进度 */}
+<M3eLinearProgress indeterminate />
+<M3eCircularProgress indeterminate />
+```
+
+<details>
+<summary>@material/web 备选</summary>
+
+**元素**：`md-linear-progress`、`md-circular-progress`
+**导入**：`@material/web/progress/linear-progress.js`、`@material/web/progress/circular-progress.js`
 
 ```html
-<!-- Determinate -->
+<!-- 确定进度 -->
 <md-linear-progress value="0.6"></md-linear-progress>
 <md-circular-progress value="0.75"></md-circular-progress>
 
-<!-- Indeterminate -->
+<!-- 不确定进度 -->
 <md-linear-progress indeterminate></md-linear-progress>
 <md-circular-progress indeterminate></md-circular-progress>
 ```
 
-**Customize**: `--md-linear-progress-active-indicator-color`, `--md-circular-progress-active-indicator-color`
-**A11y**: Has built-in `progressbar` role. Add `aria-label` for context (e.g., "Loading messages").
+**自定义**：`--md-linear-progress-active-indicator-color`、`--md-circular-progress-active-indicator-color`
+</details>
 
-### Snackbar
-**No @material/web element yet.** Implement with standard HTML:
+**无障碍**：内置 `progressbar` 角色。请添加 `aria-label` 提供上下文（例如 "Loading messages"）。
 
-```html
-<div class="md3-snackbar" role="status" aria-live="polite">
-  <span class="md3-snackbar__text">Message sent</span>
-  <md-text-button class="md3-snackbar__action">Undo</md-text-button>
-  <md-icon-button class="md3-snackbar__close" aria-label="Dismiss">
-    <md-icon>close</md-icon>
-  </md-icon-button>
-</div>
+### 提示条
+
+**使用场景**：在屏幕底部显示简短的反馈信息，可带操作按钮。
+
+> **@m3e/react 推荐：** `M3eSnackbar`（`@m3e/react/snackbar`）。
+
+| 属性 | 类型 | 描述 |
+|------|------|------|
+| `message` | string | 提示文本 |
+| `actionText` | string | 操作按钮文本 |
+| `open` | boolean | 显示状态 |
+| `timeout` | number | 自动关闭时间（毫秒，默认 5000） |
+| `dismissButton` | boolean | 显示关闭按钮 |
+
+```tsx
+import { M3eSnackbar } from '@m3e/react/snackbar';
+
+{/* 基础提示 */}
+<M3eSnackbar message="Message sent" open />
+
+{/* 带操作按钮 */}
+<M3eSnackbar
+  message="Message deleted"
+  actionText="Undo"
+  open
+  onAction={handleUndo}
+/>
+
+{/* 带关闭按钮 */}
+<M3eSnackbar
+  message="File uploaded"
+  dismissButton
+  open
+/>
 ```
 
-```css
-.md3-snackbar {
-  background: var(--md-sys-color-inverse-surface);
-  color: var(--md-sys-color-inverse-on-surface);
-  border-radius: var(--md-sys-shape-corner-extra-small);
-  padding: 12px 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 48px;
-  max-width: 560px;
-}
+**无障碍**：内置 `role="status"` 和 `aria-live="polite"`。操作按钮应使用动词描述（如 "撤销"、"重试"）。
+
+### 工具提示
+
+**使用场景**：为图标按钮、截断文本或其他交互元素提供悬停/聚焦时的上下文说明。
+
+> **@m3e/react 推荐：** `M3eTooltip`（`@m3e/react/tooltip`）。
+
+两种类型：
+- **Plain**：简短文本标签，在悬停/聚焦时显示。用于图标按钮和截断文本。
+- **Rich**：多行内容，可带操作按钮。用于复杂说明。
+
+| 属性 | 类型 | 描述 |
+|------|------|------|
+| `content` | string | 提示文本 |
+| `position` | string | 位置（`top`、`bottom`、`start`、`end`） |
+| `delay` | number | 延迟显示时间（毫秒） |
+
+```tsx
+import { M3eTooltip } from '@m3e/react/tooltip';
+import { M3eIconButton } from '@m3e/react/icon-button';
+
+{/* Plain tooltip */}
+<M3eTooltip content="Delete item" position="top">
+  <M3eIconButton aria-label="Delete" icon="delete" />
+</M3eTooltip>
+
+{/* Rich tooltip */}
+<M3eTooltip position="bottom" content={
+  <>
+    <strong>File size</strong>
+    <p>This document is 2.4 MB and was last edited 3 days ago.</p>
+  </>
+}>
+  <M3eIconButton icon="info" />
+</M3eTooltip>
 ```
 
-### Tooltip
-**No @material/web element yet.**
+**无障碍**：工具提示内容应简明扼要。对于纯图标按钮，`aria-label` 仍然是必需的，tooltip 是补充而非替代。
 
-Two types:
-- **Plain**: Short text label, appears on hover/focus. Use for icon buttons and truncated text.
-- **Rich**: Multi-line with optional actions. Use for complex explanations.
+## 容器
 
-## Containment
+### 卡片
 
-### Card
-**No @material/web element yet.** Three variants:
+**使用场景**：将相关内容和操作组合在一起，显示为一个独立的视觉单元。
 
-| Variant | Appearance | Elevation |
+> **@m3e/react 推荐：** `M3eCard`（`@m3e/react/card`）。
+
+三种变体：
+
+| 变体 | 外观 | 高度层级 |
 |---------|-----------|-----------|
-| Filled | Surface-container-highest fill, no border | Level 0 |
-| Outlined | Surface fill, outline-variant border | Level 0 |
-| Elevated | Surface-container-low fill, shadow | Level 1 |
+| Filled | Surface-container-highest 填充，无边框 | Level 0 |
+| Outlined | Surface 填充，outline-variant 边框 | Level 0 |
+| Elevated | Surface-container-low 填充，带阴影 | Level 1 |
 
-```html
-<!-- Outlined card -->
-<div class="md3-card md3-card--outlined">
-  <div class="md3-card__content">
-    <h3 style="font: var(--md-sys-typescale-title-medium)">Title</h3>
-    <p style="font: var(--md-sys-typescale-body-medium); color: var(--md-sys-color-on-surface-variant)">
-      Supporting text
-    </p>
-  </div>
-  <div class="md3-card__actions">
-    <md-filled-tonal-button>Action</md-filled-tonal-button>
-  </div>
-</div>
+| 属性 | 类型 | 描述 |
+|------|------|------|
+| `variant` | string | 变体类型（`filled`、`outlined`、`elevated`） |
+| `interactive` | boolean | 启用悬停和点击效果 |
 
-<!-- Filled card -->
-<div class="md3-card md3-card--filled">...</div>
+```tsx
+import { M3eCard } from '@m3e/react/card';
+import { M3eButton } from '@m3e/react/button';
 
-<!-- Elevated card -->
-<div class="md3-card md3-card--elevated">...</div>
+{/* 描边卡片（推荐用于大多数场景） */}
+<M3eCard variant="outlined">
+  <M3eCard.Content>
+    <h3>Project Update</h3>
+    <p>The new design system is ready for review.</p>
+  </M3eCard.Content>
+  <M3eCard.Actions>
+    <M3eButton variant="tonal">Review</M3eButton>
+  </M3eCard.Actions>
+</M3eCard>
+
+{/* 填充卡片 */}
+<M3eCard variant="filled" interactive>
+  <M3eCard.Media src="hero.jpg" alt="Hero image" />
+  <M3eCard.Content>
+    <h3>Featured Article</h3>
+    <p>Read the latest updates on Material Design 3.</p>
+  </M3eCard.Content>
+</M3eCard>
+
+{/* 凸起卡片 */}
+<M3eCard variant="elevated">
+  <M3eCard.Content>
+    <M3eIcon>trending_up</M3eIcon>
+    <h3>Analytics</h3>
+    <p>View your performance metrics.</p>
+  </M3eCard.Content>
+</M3eCard>
 ```
 
-```css
-.md3-card {
-  border-radius: var(--md-sys-shape-corner-medium, 12px);
-  overflow: hidden;
-}
-.md3-card--outlined {
-  background: var(--md-sys-color-surface);
-  border: 1px solid var(--md-sys-color-outline-variant);
-}
-.md3-card--filled {
-  background: var(--md-sys-color-surface-container-highest);
-}
-.md3-card--elevated {
-  background: var(--md-sys-color-surface-container-low);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 1px 3px 1px rgba(0,0,0,0.15);
-}
-.md3-card__content { padding: 16px; }
-.md3-card__actions { padding: 16px; display: flex; gap: 8px; justify-content: flex-end; }
-```
+**无障碍**：如果卡片可点击，使用 `interactive` 属性并添加适当的 `aria-label` 或 `role`。
 
-### Dialog
-**Element**: `md-dialog` | **Import**: `@material/web/dialog/dialog.js`
+### 对话框
 
-| Attribute | Type | Description |
+**使用场景**：显示需要用户响应的模态内容。
+
+> **@m3e/react 推荐：** `M3eDialog`（`@m3e/react/dialog`）。
+
+| 属性 | 类型 | 描述 |
 |-----------|------|-------------|
-| `open` | boolean | Shows the dialog |
-| `type` | string | `alert` (default) |
+| `open` | boolean | 显示对话框 |
+| `type` | string | `alert`（默认） |
+
+```tsx
+import { M3eDialog } from '@m3e/react/dialog';
+import { M3eButton } from '@m3e/react/button';
+
+<M3eDialog open>
+  <M3eDialog.Headline>Confirm action</M3eDialog.Headline>
+  <M3eDialog.Content>
+    Are you sure you want to proceed?
+  </M3eDialog.Content>
+  <M3eDialog.Actions>
+    <M3eButton variant="text" onClick={handleCancel}>Cancel</M3eButton>
+    <M3eButton variant="tonal" onClick={handleConfirm}>Confirm</M3eButton>
+  </M3eDialog.Actions>
+</M3eDialog>
+```
+
+<details>
+<summary>@material/web 备选</summary>
+
+**元素**：`md-dialog` | **导入**：`@material/web/dialog/dialog.js`
 
 ```html
 <md-dialog id="confirm-dialog">
@@ -361,46 +624,203 @@ Two types:
   </div>
 </md-dialog>
 ```
+</details>
 
-**A11y**: Dialog traps focus automatically. Use `slot="headline"` for accessible title.
+**无障碍**：对话框会自动捕获焦点。使用 `Headline` 子组件提供可访问的标题。
 
-### Bottom Sheet
-**No @material/web element yet.** Two variants: Standard (persistent, coexists with content) and Modal (blocks interaction, has scrim).
+### 底部表单
 
-### Side Sheet
-**No @material/web element yet.** Two variants: Standard (docked alongside content) and Modal (overlays content with scrim).
+**使用场景**：从屏幕底部滑入的面板，用于补充内容或次要操作。两种变体：Standard（持久型，与内容共存）和 Modal（模态型，阻止交互，带有遮罩层）。
 
-### Divider
-**Element**: `md-divider` | **Import**: `@material/web/divider/divider.js`
+> **@m3e/react 推荐：** `M3eBottomSheet`（`@m3e/react/bottom-sheet`）。
 
-| Attribute | Type | Description |
+| 属性 | 类型 | 描述 |
+|------|------|------|
+| `open` | boolean | 显示状态 |
+| `modal` | boolean | 启用模态模式（带遮罩层） |
+| `peekHeight` | number | 预览高度（像素） |
+| `expandable` | boolean | 允许拖动展开 |
+
+```tsx
+import { M3eBottomSheet } from '@m3e/react/bottom-sheet';
+
+{/* Standard 底部表单 */}
+<M3eBottomSheet open peekHeight={200}>
+  <M3eBottomSheet.Header>
+    <h3>Now Playing</h3>
+  </M3eBottomSheet.Header>
+  <M3eBottomSheet.Content>
+    <p>Song title - Artist</p>
+    <div className="controls">...</div>
+  </M3eBottomSheet.Content>
+</M3eBottomSheet>
+
+{/* Modal 底部表单 */}
+<M3eBottomSheet modal open>
+  <M3eBottomSheet.Header>
+    <h3>Filter Options</h3>
+  </M3eBottomSheet.Header>
+  <M3eBottomSheet.Content>
+    <M3eCheckbox label="Option A" />
+    <M3eCheckbox label="Option B" />
+  </M3eBottomSheet.Content>
+  <M3eBottomSheet.Actions>
+    <M3eButton variant="filled">Apply</M3eButton>
+  </M3eBottomSheet.Actions>
+</M3eBottomSheet>
+```
+
+**无障碍**：模态模式下自动管理焦点捕获。提供清晰的标题和关闭方式。
+
+### 侧边表单
+
+**使用场景**：从屏幕侧面滑入的面板，用于显示补充内容或导航。两种变体：Standard（标准型，停靠在内容旁边）和 Modal（模态型，带有遮罩层覆盖内容）。
+
+> **@m3e/react 推荐：** `M3eDrawerContainer`（`@m3e/react/drawer-container`）。
+
+| 属性 | 类型 | 描述 |
+|------|------|------|
+| `open` | boolean | 显示状态 |
+| `type` | string | `standard` 或 `modal` |
+| `position` | string | `start` 或 `end`（默认 `start`） |
+
+```tsx
+import { M3eDrawerContainer } from '@m3e/react/drawer-container';
+import { M3eList, M3eListItem } from '@m3e/react/list';
+
+<M3eDrawerContainer type="standard" open>
+  <M3eDrawerContainer.Drawer>
+    <h3>Filters</h3>
+    <M3eList>
+      <M3eListItem>Category A</M3eListItem>
+      <M3eListItem>Category B</M3eListItem>
+    </M3eList>
+  </M3eDrawerContainer.Drawer>
+  <M3eDrawerContainer.Content>
+    <p>Main content area</p>
+  </M3eDrawerContainer.Content>
+</M3eDrawerContainer>
+
+{/* Modal 侧边表单 */}
+<M3eDrawerContainer type="modal" open>
+  <M3eDrawerContainer.Drawer>
+    <h3>Details</h3>
+    <p>Additional information here</p>
+  </M3eDrawerContainer.Drawer>
+  <M3eDrawerContainer.Content>
+    <p>Content behind modal</p>
+  </M3eDrawerContainer.Content>
+</M3eDrawerContainer>
+```
+
+**无障碍**：模态模式下自动管理焦点捕获。提供清晰的标题和关闭方式。
+
+### 分隔线
+
+**使用场景**：在内容区域之间创建视觉分隔。
+
+> **@m3e/react 推荐：** `M3eDivider`（`@m3e/react/divider`）。
+
+| 属性 | 类型 | 描述 |
 |-----------|------|-------------|
-| `inset` | boolean | Adds inset on both sides |
-| `inset-start` | boolean | Adds inset on start side |
-| `inset-end` | boolean | Adds inset on end side |
+| `inset` | boolean | 两侧添加缩进 |
+| `insetStart` | boolean | 起始侧添加缩进 |
+| `insetEnd` | boolean | 结束侧添加缩进 |
+
+```tsx
+import { M3eDivider } from '@m3e/react/divider';
+
+<M3eDivider />
+<M3eDivider inset />
+```
+
+<details>
+<summary>@material/web 备选</summary>
+
+**元素**：`md-divider` | **导入**：`@material/web/divider/divider.js`
 
 ```html
 <md-divider></md-divider>
 <md-divider inset></md-divider>
 ```
+</details>
 
-### Carousel
-**No @material/web element yet.** Three configurations:
-- **Multi-browse**: Multiple items visible, scrollable
-- **Uncontained**: Items extend beyond viewport edges
-- **Hero**: One large featured item with smaller previews
+### 轮播
 
-## Input
+**使用场景**：水平滚动展示一组内容卡片、图片或媒体项。
 
-### Checkbox
-**Element**: `md-checkbox` | **Import**: `@material/web/checkbox/checkbox.js`
+> **@m3e/react 推荐：** `M3eSlideGroup`（`@m3e/react/slide-group`）。
 
-| Attribute | Type | Description |
+三种配置：
+- **Multi-browse**：多个项目可见，可滚动
+- **Uncontained**：项目可延伸到视口边缘之外
+- **Hero**：一个大尺寸的主项目搭配较小的预览项
+
+| 属性 | 类型 | 描述 |
+|------|------|------|
+| `showArrows` | boolean | 显示导航箭头 |
+| `snap` | boolean | 启用吸附对齐 |
+| `peek` | string | 预览宽度（如 `32px`） |
+
+```tsx
+import { M3eSlideGroup } from '@m3e/react/slide-group';
+import { M3eCard } from '@m3e/react/card';
+
+{/* Multi-browse 轮播 */}
+<M3eSlideGroup showArrows snap>
+  <div className="slide">
+    <img src="image1.jpg" alt="Image 1" />
+    <h3>Item 1</h3>
+  </div>
+  <div className="slide">
+    <img src="image2.jpg" alt="Image 2" />
+    <h3>Item 2</h3>
+  </div>
+  <div className="slide">
+    <img src="image3.jpg" alt="Image 3" />
+    <h3>Item 3</h3>
+  </div>
+</M3eSlideGroup>
+
+{/* Uncontained 轮播 */}
+<M3eSlideGroup peek="48px" showArrows>
+  <M3eCard variant="outlined">
+    <M3eCard.Content>Featured content</M3eCard.Content>
+  </M3eCard>
+  <M3eCard variant="outlined">
+    <M3eCard.Content>More content</M3eCard.Content>
+  </M3eCard>
+</M3eSlideGroup>
+```
+
+**无障碍**：支持键盘导航（方向键）。为每个幻灯片提供 `aria-label`。
+
+## 输入
+
+### 复选框
+
+**使用场景**：在选项中进行多选或确认操作。
+
+> **@m3e/react 推荐：** `M3eCheckbox`（`@m3e/react/checkbox`）。
+
+| 属性 | 类型 | 描述 |
 |-----------|------|-------------|
-| `checked` | boolean | Checked state |
-| `indeterminate` | boolean | Indeterminate state |
-| `disabled` | boolean | Disabled state |
-| `required` | boolean | Required for form validation |
+| `checked` | boolean | 选中状态 |
+| `indeterminate` | boolean | 不确定状态 |
+| `disabled` | boolean | 禁用状态 |
+| `required` | boolean | 表单验证必填 |
+
+```tsx
+import { M3eCheckbox } from '@m3e/react/checkbox';
+
+<M3eCheckbox label="Accept terms" />
+<M3eCheckbox label="Remember me" defaultChecked />
+```
+
+<details>
+<summary>@material/web 备选</summary>
+
+**元素**：`md-checkbox` | **导入**：`@material/web/checkbox/checkbox.js`
 
 ```html
 <label>
@@ -413,19 +833,42 @@ Two types:
   Remember me
 </label>
 ```
+</details>
 
-**A11y**: Wrap in `<label>` or use `aria-label`. Checkbox has built-in checkbox role.
+**无障碍**：用 `<label>` 包裹或使用 `aria-label`。复选框内置 checkbox 角色。
 
-### Chips
-**Elements**: `md-chip-set`, `md-assist-chip`, `md-filter-chip`, `md-input-chip`, `md-suggestion-chip`
-**Import**: `@material/web/chips/*.js`
+### 标签
 
-| Variant | Element | Use |
+**使用场景**：显示过滤条件、输入令牌或操作建议。
+
+> **@m3e/react 推荐：** `M3eChipSet`、`M3eChip`（`@m3e/react/chips`）。
+
+| 变体 | @m3e/react 用法 | 用途 |
 |---------|---------|-----|
-| Assist | `md-assist-chip` | Smart suggestions, shortcuts |
-| Filter | `md-filter-chip` | Filtering content, multi-select |
-| Input | `md-input-chip` | User input tokens (email recipients) |
-| Suggestion | `md-suggestion-chip` | Suggested responses, queries |
+| Assist | `M3eChip` (`variant="assist"`) | 智能建议、快捷方式 |
+| Filter | `M3eChip` (`variant="filter"`) | 过滤内容、多选 |
+| Input | `M3eChip` (`variant="input"`) | 用户输入令牌（如邮件收件人） |
+| Suggestion | `M3eChip` (`variant="suggestion"`) | 建议回复、查询 |
+
+```tsx
+import { M3eChipSet, M3eChip } from '@m3e/react/chips';
+
+<M3eChipSet>
+  <M3eChip variant="filter" label="Vegetarian" selected />
+  <M3eChip variant="filter" label="Vegan" />
+  <M3eChip variant="filter" label="Gluten-free" />
+</M3eChipSet>
+
+<M3eChipSet>
+  <M3eChip variant="input" label="user@example.com" removable onRemove={handleRemove} />
+</M3eChipSet>
+```
+
+<details>
+<summary>@material/web 备选</summary>
+
+**元素**：`md-chip-set`、`md-assist-chip`、`md-filter-chip`、`md-input-chip`、`md-suggestion-chip`
+**导入**：`@material/web/chips/*.js`
 
 ```html
 <md-chip-set>
@@ -438,18 +881,49 @@ Two types:
   <md-input-chip label="user@example.com" removable></md-input-chip>
 </md-chip-set>
 ```
+</details>
 
-### Menu
-**Elements**: `md-menu`, `md-menu-item`, `md-sub-menu`
-**Import**: `@material/web/menu/menu.js`, `@material/web/menu/menu-item.js`
+### 菜单
 
-**I/O 2026 note:** Expressive menus have updated Material guidance for more flexible, vibrant configurations. In Jetpack Compose, prefer current Material3 menu APIs and expressive variants when available in your BOM. On web, use `md-menu` / `md-menu-item` for token-backed menus, or build custom spec-aligned variants when expressive behavior is required.
+**使用场景**：在锚点元素附近显示操作列表或选项。
 
-| Attribute (menu) | Type | Description |
+> **@m3e/react 推荐：** `M3eMenu`、`M3eMenuItem`（`@m3e/react/menu`）。
+
+**I/O 2026 备注：** 表现力菜单更新了 Material 指南，提供更灵活、更生动的配置方式。在 Jetpack Compose 中，优先使用当前 Material3 菜单 API 和 BOM 中可用的表现力变体。在 Web 上，使用 `@m3e/react` 构建菜单，或在需要表现力行为时使用 `@material/web` 构建规范对齐的自定义变体。
+
+| 属性（菜单） | 类型 | 描述 |
 |-----------------|------|-------------|
-| `anchor` | string | ID of the anchor element |
-| `open` | boolean | Shows the menu |
-| `positioning` | string | `absolute`, `fixed`, `popover` |
+| `anchor` | string | 锚点元素的 ID |
+| `open` | boolean | 显示菜单 |
+| `positioning` | string | `absolute`、`fixed`、`popover` |
+
+```tsx
+import { useState } from 'react';
+import { M3eMenu, M3eMenuItem } from '@m3e/react/menu';
+import { M3eButton } from '@m3e/react/button';
+
+function MenuExample() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <M3eButton variant="filled" id="menu-trigger" onClick={() => setOpen(!open)}>
+        Options
+      </M3eButton>
+      <M3eMenu anchor="menu-trigger" open={open} onOpenChange={setOpen}>
+        <M3eMenuItem headline="Edit" icon="edit" />
+        <M3eMenuItem headline="Delete" icon="delete" />
+      </M3eMenu>
+    </>
+  );
+}
+```
+
+<details>
+<summary>@material/web 备选</summary>
+
+**元素**：`md-menu`、`md-menu-item`、`md-sub-menu`
+**导入**：`@material/web/menu/menu.js`、`@material/web/menu/menu-item.js`
 
 ```html
 <span style="position: relative;">
@@ -472,9 +946,28 @@ Two types:
   });
 </script>
 ```
+</details>
 
-### Radio Button
-**Element**: `md-radio` | **Import**: `@material/web/radio/radio.js`
+### 单选按钮
+
+**使用场景**：在一组互斥选项中选择一项。
+
+> **@m3e/react 推荐：** `M3eRadio`（`@m3e/react/radio`）。
+
+```tsx
+import { M3eRadio } from '@m3e/react/radio';
+
+<div role="radiogroup" aria-label="Size">
+  <label><M3eRadio name="size" value="s" /> Small</label>
+  <label><M3eRadio name="size" value="m" defaultChecked /> Medium</label>
+  <label><M3eRadio name="size" value="l" /> Large</label>
+</div>
+```
+
+<details>
+<summary>@material/web 备选</summary>
+
+**元素**：`md-radio` | **导入**：`@material/web/radio/radio.js`
 
 ```html
 <div role="radiogroup" aria-label="Size">
@@ -483,42 +976,87 @@ Two types:
   <label><md-radio name="size" value="l"></md-radio> Large</label>
 </div>
 ```
+</details>
 
-**A11y**: Group radios in a container with `role="radiogroup"` and `aria-label`.
+**无障碍**：将单选按钮放在带有 `role="radiogroup"` 和 `aria-label` 的容器中分组。
 
-### Slider
-**Element**: `md-slider` | **Import**: `@material/web/slider/slider.js`
+### 滑块
 
-| Attribute | Type | Description |
+**使用场景**：在连续或离散范围内选择值。
+
+> **@m3e/react 推荐：** `M3eSlider`（`@m3e/react/slider`）。
+
+| 属性 | 类型 | 描述 |
 |-----------|------|-------------|
-| `value` | number | Current value |
-| `min` | number | Minimum value |
-| `max` | number | Maximum value |
-| `step` | number | Step increment (makes discrete) |
-| `labeled` | boolean | Shows value label |
-| `range` | boolean | Enables range selection |
-| `value-start` | number | Start value (range mode) |
-| `value-end` | number | End value (range mode) |
+| `value` | number | 当前值 |
+| `min` | number | 最小值 |
+| `max` | number | 最大值 |
+| `step` | number | 步进增量（设为离散模式） |
+| `labeled` | boolean | 显示值标签 |
+| `range` | boolean | 启用范围选择 |
+| `valueStart` | number | 起始值（范围模式） |
+| `valueEnd` | number | 结束值（范围模式） |
 
-```html
-<!-- Continuous -->
-<md-slider value="50" min="0" max="100" aria-label="Volume"></md-slider>
+```tsx
+import { M3eSlider } from '@m3e/react/slider';
 
-<!-- Discrete with label -->
-<md-slider value="3" min="1" max="10" step="1" labeled aria-label="Rating"></md-slider>
+{/* 连续滑块 */}
+<M3eSlider defaultValue={50} min={0} max={100} aria-label="Volume" />
 
-<!-- Range -->
-<md-slider range value-start="20" value-end="80" min="0" max="100" aria-label="Price range"></md-slider>
+{/* 带标签的离散滑块 */}
+<M3eSlider defaultValue={3} min={1} max={10} step={1} labeled aria-label="Rating" />
+
+{/* 范围滑块 */}
+<M3eSlider range defaultValueStart={20} defaultValueEnd={80} min={0} max={100} aria-label="Price range" />
 ```
 
-### Switch
-**Element**: `md-switch` | **Import**: `@material/web/switch/switch.js`
+<details>
+<summary>@material/web 备选</summary>
 
-| Attribute | Type | Description |
+**元素**：`md-slider` | **导入**：`@material/web/slider/slider.js`
+
+```html
+<!-- 连续滑块 -->
+<md-slider value="50" min="0" max="100" aria-label="Volume"></md-slider>
+
+<!-- 带标签的离散滑块 -->
+<md-slider value="3" min="1" max="10" step="1" labeled aria-label="Rating"></md-slider>
+
+<!-- 范围滑块 -->
+<md-slider range value-start="20" value-end="80" min="0" max="100" aria-label="Price range"></md-slider>
+```
+</details>
+
+### 开关
+
+**使用场景**：切换二元状态（开/关）。
+
+> **@m3e/react 推荐：** `M3eSwitch`（`@m3e/react/switch`）。
+
+| 属性 | 类型 | 描述 |
 |-----------|------|-------------|
-| `selected` | boolean | On state |
-| `icons` | boolean | Show on/off icons |
-| `disabled` | boolean | Disabled state |
+| `selected` | boolean | 开启状态 |
+| `icons` | boolean | 显示开/关图标 |
+| `disabled` | boolean | 禁用状态 |
+
+```tsx
+import { M3eSwitch } from '@m3e/react/switch';
+
+<label>
+  <M3eSwitch />
+  Dark mode
+</label>
+
+<label>
+  <M3eSwitch defaultSelected icons />
+  Notifications
+</label>
+```
+
+<details>
+<summary>@material/web 备选</summary>
+
+**元素**：`md-switch` | **导入**：`@material/web/switch/switch.js`
 
 ```html
 <label>
@@ -532,30 +1070,80 @@ Two types:
 </label>
 ```
 
-**Customize**: `--md-switch-selected-handle-color`, `--md-switch-selected-track-color`
+**自定义**：`--md-switch-selected-handle-color`、`--md-switch-selected-track-color`
+</details>
 
-### Text Field
-**Elements**: `md-filled-text-field`, `md-outlined-text-field`
-**Import**: `@material/web/textfield/filled-text-field.js`, `@material/web/textfield/outlined-text-field.js`
+### 文本输入框
 
-| Attribute | Type | Description |
+**使用场景**：接收用户的文本输入。
+
+> **@m3e/react 推荐：** `M3eTextField`（`@m3e/react/text-field`）。
+
+| 属性 | 类型 | 描述 |
 |-----------|------|-------------|
-| `label` | string | Label text |
-| `value` | string | Current value |
-| `type` | string | Input type (text, email, password, number, textarea, etc.) |
-| `placeholder` | string | Placeholder text |
-| `required` | boolean | Required validation |
-| `disabled` | boolean | Disabled state |
-| `error` | boolean | Error state |
-| `error-text` | string | Error message |
-| `supporting-text` | string | Helper text |
-| `prefix-text` | string | Prefix text |
-| `suffix-text` | string | Suffix text |
-| `max-length` | number | Character limit (shows counter) |
-| `rows` | number | Rows (for textarea) |
+| `label` | string | 标签文本 |
+| `value` | string | 当前值 |
+| `type` | string | 输入类型（text、email、password、number、textarea 等） |
+| `placeholder` | string | 占位符文本 |
+| `required` | boolean | 必填验证 |
+| `disabled` | boolean | 禁用状态 |
+| `error` | boolean | 错误状态 |
+| `errorText` | string | 错误信息 |
+| `supportingText` | string | 辅助文本 |
+| `prefixText` | string | 前缀文本 |
+| `suffixText` | string | 后缀文本 |
+| `maxLength` | number | 字符限制（显示计数器） |
+| `rows` | number | 行数（用于 textarea） |
+
+```tsx
+import { M3eTextField } from '@m3e/react/text-field';
+
+{/* 描边（推荐用于大多数场景） */}
+<M3eTextField
+  variant="outlined"
+  label="Email"
+  type="email"
+  required
+  supportingText="We'll never share your email"
+/>
+
+{/* 填充 */}
+<M3eTextField
+  variant="filled"
+  label="Search"
+  type="text"
+  placeholder="Type to search..."
+  leadingIcon="search"
+/>
+
+{/* 带错误状态 */}
+<M3eTextField
+  variant="outlined"
+  label="Password"
+  type="password"
+  error
+  errorText="Password must be at least 8 characters"
+  minLength={8}
+/>
+
+{/* 多行文本域 */}
+<M3eTextField
+  variant="outlined"
+  label="Message"
+  type="textarea"
+  rows={4}
+  maxLength={500}
+/>
+```
+
+<details>
+<summary>@material/web 备选</summary>
+
+**元素**：`md-filled-text-field`、`md-outlined-text-field`
+**导入**：`@material/web/textfield/filled-text-field.js`、`@material/web/textfield/outlined-text-field.js`
 
 ```html
-<!-- Outlined (recommended for most uses) -->
+<!-- 描边（推荐用于大多数场景） -->
 <md-outlined-text-field
   label="Email"
   type="email"
@@ -563,7 +1151,7 @@ Two types:
   supporting-text="We'll never share your email">
 </md-outlined-text-field>
 
-<!-- Filled -->
+<!-- 填充 -->
 <md-filled-text-field
   label="Search"
   type="text"
@@ -571,7 +1159,7 @@ Two types:
   <md-icon slot="leading-icon">search</md-icon>
 </md-filled-text-field>
 
-<!-- With error -->
+<!-- 带错误状态 -->
 <md-outlined-text-field
   label="Password"
   type="password"
@@ -580,7 +1168,7 @@ Two types:
   min-length="8">
 </md-outlined-text-field>
 
-<!-- Textarea -->
+<!-- 多行文本域 -->
 <md-outlined-text-field
   label="Message"
   type="textarea"
@@ -589,14 +1177,15 @@ Two types:
 </md-outlined-text-field>
 ```
 
-**Customize**: `--md-outlined-text-field-container-shape`, `--md-outlined-text-field-focus-outline-color`, `--md-filled-text-field-container-color`
+**自定义**：`--md-outlined-text-field-container-shape`、`--md-outlined-text-field-focus-outline-color`、`--md-filled-text-field-container-color`
+</details>
 
 #### Jetpack Compose
 
-Use **`OutlinedTextField`** / **`TextField`** from **`androidx.compose.material3`**. Prefer **state-based** APIs (`TextFieldState`, `rememberTextFieldState()`) when targeting current Material3 releases — see the [package overview](https://developer.android.com/reference/kotlin/androidx/compose/material3/package-summary). Map labels, supporting text, and error state to MD3 roles (`MaterialTheme.colorScheme`, `TextFieldDefaults`).
+使用 **`androidx.compose.material3`** 中的 **`OutlinedTextField`** / **`TextField`**。在当前 Material3 版本中优先使用 **基于状态** 的 API（`TextFieldState`、`rememberTextFieldState()`）—— 参见 [包概述](https://developer.android.com/reference/kotlin/androidx/compose/material3/package-summary)。将标签、辅助文本和错误状态映射到 MD3 角色（`MaterialTheme.colorScheme`、`TextFieldDefaults`）。
 
 ```kotlin
-// Illustrative — API names vary slightly by Material3 version
+// 示意代码 —— API 名称因 Material3 版本略有差异
 val state = rememberTextFieldState("")
 
 OutlinedTextField(
@@ -608,60 +1197,149 @@ OutlinedTextField(
 )
 ```
 
-### Date Picker
-**No @material/web element yet.** Three configurations:
-- **Docked**: Inline calendar attached to input
-- **Modal**: Full dialog for date selection
-- **Range**: Select a date range
+### 日期选择器
 
-### Time Picker
-**No @material/web element yet.** Two configurations:
-- **Docked**: Inline time input
-- **Modal**: Clock dial in dialog
+**使用场景**：选择日期或日期范围。
 
-## Navigation
+> **@m3e/react 推荐：** `M3eDatepicker`（`@m3e/react/datepicker`）。
 
-### App Bar (Top)
-**No @material/web element yet.** Four variants:
+三种配置：
+- **Docked**：内联日历，附着于输入框
+- **Modal**：用于日期选择的完整对话框
+- **Range**：选择日期范围
 
-| Variant | Height | Title position | Scroll behavior |
+| 属性 | 类型 | 描述 |
+|------|------|------|
+| `value` | string/Date | 选中的日期 |
+| `mode` | string | `docked`、`modal`、`range` |
+| `min` | string/Date | 最小可选日期 |
+| `max` | string/Date | 最大可选日期 |
+| `locale` | string | 语言区域 |
+
+```tsx
+import { M3eDatepicker } from '@m3e/react/datepicker';
+import { M3eTextField } from '@m3e/react/text-field';
+import { M3eButton } from '@m3e/react/button';
+
+{/* Docked 日期选择器 */}
+<M3eDatepicker mode="docked" value="2026-09-02">
+  <M3eTextField variant="outlined" label="Select date" />
+</M3eDatepicker>
+
+{/* Modal 日期选择器 */}
+<M3eDatepicker mode="modal" min="2026-01-01" max="2026-12-31">
+  <M3eButton variant="filled">Choose Date</M3eButton>
+</M3eDatepicker>
+
+{/* 日期范围选择 */}
+<M3eDatepicker mode="range">
+  <M3eTextField variant="outlined" label="Date range" />
+</M3eDatepicker>
+```
+
+**无障碍**：提供清晰的标签和日期格式说明。支持键盘导航（方向键选择日期）。
+
+### 时间选择器
+
+**使用场景**：选择时间。
+
+> **@m3e/react 推荐：** `M3eTimepicker`（`@m3e/react/timepicker`）。
+
+两种配置：
+- **Docked**：内联时间输入
+- **Modal**：对话框中的时钟拨盘
+
+| 属性 | 类型 | 描述 |
+|------|------|------|
+| `value` | string | 选中的时间（HH:MM 格式） |
+| `mode` | string | `docked` 或 `modal` |
+| `format` | string | `12h` 或 `24h` |
+| `step` | number | 分钟步进值 |
+
+```tsx
+import { M3eTimepicker } from '@m3e/react/timepicker';
+import { M3eTextField } from '@m3e/react/text-field';
+import { M3eButton } from '@m3e/react/button';
+
+{/* Docked 时间选择器 */}
+<M3eTimepicker mode="docked" value="14:30" format="24h">
+  <M3eTextField variant="outlined" label="Select time" />
+</M3eTimepicker>
+
+{/* Modal 时间选择器 */}
+<M3eTimepicker mode="modal" format="12h" step={15}>
+  <M3eButton variant="filled">Choose Time</M3eButton>
+</M3eTimepicker>
+```
+
+**无障碍**：提供清晰的标签。支持键盘导航（方向键调整时间）。
+
+## 导航
+
+### 顶部应用栏
+
+**使用场景**：页面顶部的导航和操作区域。
+
+> **@m3e/react 推荐：** `M3eAppBar`（`@m3e/react/app-bar`）。
+
+四种变体：
+
+| 变体 | 高度 | 标题位置 | 滚动行为 |
 |---------|--------|---------------|----------------|
-| Center-aligned | 64dp | Center | Elevate on scroll |
-| Small | 64dp | Left | Elevate on scroll |
-| Medium | 112dp | Left, bottom | Collapse to small on scroll |
-| Large | 152dp | Left, bottom | Collapse to small on scroll |
+| Center-aligned | 64dp | 居中 | 滚动时凸起 |
+| Small | 64dp | 左侧 | 滚动时凸起 |
+| Medium | 112dp | 左侧，底部 | 滚动时收缩为小型 |
+| Large | 152dp | 左侧，底部 | 滚动时收缩为小型 |
 
-**Jetpack Compose:** `TopAppBar`, `CenterAlignedTopAppBar`, `MediumTopAppBar`, `LargeTopAppBar`, and expressive variants (e.g. large flexible) may require **`@OptIn(ExperimentalMaterial3ExpressiveApi::class)`** depending on BOM — check your `material3` version.
+| 属性 | 类型 | 描述 |
+|------|------|------|
+| `variant` | string | `center-aligned`、`small`、`medium`、`large` |
+| `scrollTarget` | string | 滚动监听的目标元素 |
+| `elevation` | boolean | 滚动时自动显示阴影 |
 
-```html
-<header class="md3-top-app-bar md3-top-app-bar--small">
-  <md-icon-button aria-label="Menu"><md-icon>menu</md-icon></md-icon-button>
-  <span class="md3-top-app-bar__title" style="font: var(--md-sys-typescale-title-large)">
-    Page Title
-  </span>
-  <md-icon-button aria-label="Search"><md-icon>search</md-icon></md-icon-button>
-  <md-icon-button aria-label="More"><md-icon>more_vert</md-icon></md-icon-button>
-</header>
+**Jetpack Compose：** `TopAppBar`、`CenterAlignedTopAppBar`、`MediumTopAppBar`、`LargeTopAppBar` 以及表现力变体（如 large flexible）可能需要 **`@OptIn(ExperimentalMaterial3ExpressiveApi::class)`**，具体取决于 BOM —— 请检查你的 `material3` 版本。
+
+```tsx
+import { M3eAppBar } from '@m3e/react/app-bar';
+import { M3eIconButton } from '@m3e/react/icon-button';
+
+{/* Small 应用栏 */}
+<M3eAppBar variant="small">
+  <M3eIconButton slot="navigation" aria-label="Menu" icon="menu" />
+  <span slot="headline">Page Title</span>
+  <M3eIconButton slot="action" aria-label="Search" icon="search" />
+  <M3eIconButton slot="action" aria-label="More" icon="more_vert" />
+</M3eAppBar>
+
+{/* Large 应用栏 */}
+<M3eAppBar variant="large" elevation>
+  <M3eIconButton slot="navigation" aria-label="Back" icon="arrow_back" />
+  <span slot="headline">Dashboard</span>
+</M3eAppBar>
 ```
 
-```css
-.md3-top-app-bar {
-  height: 64px;
-  padding: 0 4px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background: var(--md-sys-color-surface);
-  color: var(--md-sys-color-on-surface);
-}
-.md3-top-app-bar__title { flex: 1; padding: 0 12px; }
-/* Scrolled state */
-.md3-top-app-bar--scrolled { background: var(--md-sys-color-surface-container); }
+**无障碍**：使用 `<header>` 语义角色。导航按钮需要 `aria-label`。
+
+### 底部导航栏
+
+**使用场景**：3–5 个主要目标页面，移动设备/紧凑屏幕，持久显示。
+
+> **@m3e/react 推荐：** `M3eNavigationBar`（`@m3e/react/navigation-bar`）。
+
+```tsx
+import { M3eNavigationBar, M3eNavigationTab } from '@m3e/react/navigation-bar';
+
+<M3eNavigationBar>
+  <M3eNavigationTab label="Home" active activeIcon="home" inactiveIcon="home" />
+  <M3eNavigationTab label="Explore" activeIcon="explore" inactiveIcon="explore" />
+  <M3eNavigationTab label="Profile" activeIcon="person" inactiveIcon="person" />
+</M3eNavigationBar>
 ```
 
-### Navigation Bar
-**Element**: `md-navigation-bar` | **Import**: `@material/web/navigation/navigation-bar.js`
-**Use when**: 3–5 primary destinations, mobile/compact screens, persistent.
+<details>
+<summary>@material/web 备选</summary>
+
+**元素**：`md-navigation-bar` | **导入**：`@material/web/navigation/navigation-bar.js`
 
 ```html
 <md-navigation-bar>
@@ -679,15 +1357,40 @@ OutlinedTextField(
   </md-navigation-tab>
 </md-navigation-bar>
 ```
+</details>
 
-### Navigation Drawer
-**Element**: `md-navigation-drawer` | **Import**: `@material/web/navigation/navigation-drawer.js`
-**Use when**: Many destinations, larger screens, can be modal or persistent.
+### 导航抽屉
 
-| Attribute | Type | Description |
+**使用场景**：目标页面较多、较大屏幕，可为模态或持久型。
+
+> **@m3e/react 推荐：** `M3eNavigationDrawer`（`@m3e/react/navigation-drawer`）。另有 `M3eDrawerContainer`（`@m3e/react/drawer-container`）用于更灵活的布局。
+
+| 属性 | 类型 | 描述 |
 |-----------|------|-------------|
-| `opened` | boolean | Open state |
-| `type` | string | `standard` or `modal` |
+| `opened` | boolean | 打开状态 |
+| `type` | string | `standard` 或 `modal` |
+
+```tsx
+import { M3eNavigationDrawer } from '@m3e/react/navigation-drawer';
+import { M3eList, M3eListItem } from '@m3e/react/list';
+
+<M3eNavigationDrawer opened>
+  <div slot="headline">Mail</div>
+  <M3eList>
+    <M3eListItem type="button" active leadingIcon="inbox">
+      Inbox
+    </M3eListItem>
+    <M3eListItem type="button" leadingIcon="send">
+      Sent
+    </M3eListItem>
+  </M3eList>
+</M3eNavigationDrawer>
+```
+
+<details>
+<summary>@material/web 备选</summary>
+
+**元素**：`md-navigation-drawer` | **导入**：`@material/web/navigation/navigation-drawer.js`
 
 ```html
 <md-navigation-drawer opened>
@@ -704,67 +1407,99 @@ OutlinedTextField(
   </md-list>
 </md-navigation-drawer>
 ```
+</details>
 
-### Navigation Rail
-**No @material/web element yet.** Use when: 3–7 destinations, medium screens (600–839dp), persistent side navigation.
+### 导航侧栏
 
-```html
-<nav class="md3-nav-rail" aria-label="Main">
-  <md-fab size="small" variant="tertiary" aria-label="Compose">
-    <md-icon slot="icon">edit</md-icon>
-  </md-fab>
-  <div class="md3-nav-rail__items">
-    <a href="/" class="md3-nav-rail__item md3-nav-rail__item--active" aria-current="page">
-      <md-icon>home</md-icon>
-      <span>Home</span>
-    </a>
-    <a href="/search" class="md3-nav-rail__item">
-      <md-icon>search</md-icon>
-      <span>Search</span>
-    </a>
-  </div>
-</nav>
+**使用场景**：3–7 个目标页面，中等屏幕（600–839dp），持久的侧边导航。
+
+> **@m3e/react 推荐：** `M3eNavRail`（`@m3e/react/nav-rail`）。
+
+| 属性 | 类型 | 描述 |
+|------|------|------|
+| `selected` | string | 当前选中的导航项标识 |
+| `showLabels` | boolean | 始终显示标签（默认仅选中时显示） |
+
+```tsx
+import { M3eNavRail, M3eNavRailItem } from '@m3e/react/nav-rail';
+import { M3eFab } from '@m3e/react/fab';
+
+<M3eNavRail selected="home" aria-label="Main navigation">
+  <M3eFab slot="fab" size="small" variant="tertiary" aria-label="Compose" icon="edit" />
+
+  <M3eNavRailItem value="home" label="Home" active icon="home" />
+  <M3eNavRailItem value="search" label="Search" icon="search" />
+  <M3eNavRailItem value="favorites" label="Favorites" icon="favorite" />
+  <M3eNavRailItem value="profile" label="Profile" icon="person" />
+</M3eNavRail>
 ```
 
-```css
-.md3-nav-rail {
-  width: 80px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 12px 0;
-  gap: 12px;
-  background: var(--md-sys-color-surface);
-}
-.md3-nav-rail__items { display: flex; flex-direction: column; gap: 12px; }
-.md3-nav-rail__item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 0;
-  text-decoration: none;
-  color: var(--md-sys-color-on-surface-variant);
-  font: var(--md-sys-typescale-label-medium);
-}
-.md3-nav-rail__item--active { color: var(--md-sys-color-on-surface); }
+**无障碍**：使用 `<nav>` 语义角色和 `aria-label`。每个导航项需要 `aria-current` 指示当前页面。
+
+### 搜索
+
+**使用场景**：提供全局或上下文搜索功能。
+
+> **@m3e/react 推荐：** `M3eSearch`（`@m3e/react/search`）。
+
+两种模式：
+- **搜索栏**：顶部应用栏区域中的持久搜索输入框
+- **搜索视图**：可展开的搜索覆盖层，带有建议列表
+
+| 属性 | 类型 | 描述 |
+|------|------|------|
+| `value` | string | 当前搜索文本 |
+| `placeholder` | string | 占位符文本 |
+| `expanded` | boolean | 展开模式（搜索视图） |
+| `suggestions` | array | 建议列表 |
+
+**I/O 2026 备注：** 表现力搜索和搜索应用栏指南增加了刷新的视觉风格、动效和更灵活的尾部图标行为。在 Jetpack Compose 中，使用当前 Material3 搜索 API 和可用的表现力应用栏变体。
+
+```tsx
+import { M3eSearch } from '@m3e/react/search';
+import { M3eIconButton } from '@m3e/react/icon-button';
+
+{/* 搜索栏 */}
+<M3eSearch placeholder="Search products..." value="">
+  <M3eIconButton slot="trailingIcon" aria-label="Clear" icon="close" />
+</M3eSearch>
+
+{/* 搜索视图（带建议） */}
+<M3eSearch
+  expanded
+  placeholder="Search..."
+  suggestions={[{ text: 'Material Design' }, { text: 'Components' }]}
+/>
 ```
 
-### Search
-**No @material/web element yet.** Two patterns:
-- **Search bar**: Persistent search field in top app bar area
-- **Search view**: Expandable search overlay with suggestions
+**无障碍**：使用 `aria-label` 或关联的 `<label>` 元素。建议列表应支持键盘导航。
 
-**I/O 2026 note:** Expressive search and search app bar guidance adds a refreshed visual style, motion, and more flexible trailing icon behavior. In Jetpack Compose, use the current Material3 search APIs and expressive app bar variants where available. On web, implement search as a custom component using MD3 shape, color, spacing, and motion tokens.
+### 标签页
 
-### Tabs
-**Elements**: `md-tabs`, `md-primary-tab`, `md-secondary-tab`
-**Import**: `@material/web/tabs/tabs.js`, `@material/web/tabs/primary-tab.js`, `@material/web/tabs/secondary-tab.js`
+**使用场景**：在同一视图区域内切换不同的内容。
 
-| Variant | Element | Use |
+> **@m3e/react 推荐：** `M3eTabs`、`M3eTab`（`@m3e/react/tabs`）。
+
+| 变体 | @m3e/react 用法 | 用途 |
 |---------|---------|-----|
-| Primary | `md-primary-tab` | Top-level navigation within a page |
-| Secondary | `md-secondary-tab` | Sub-sections within primary tabs |
+| Primary | `M3eTab` (`variant="primary"`) | 页面内的顶级导航 |
+| Secondary | `M3eTab` (`variant="secondary"`) | 主要标签页内的子分区 |
+
+```tsx
+import { M3eTabs, M3eTab } from '@m3e/react/tabs';
+
+<M3eTabs>
+  <M3eTab variant="primary" active icon="flight" label="Flights" />
+  <M3eTab variant="primary" icon="hotel" label="Hotels" />
+  <M3eTab variant="primary" icon="explore" label="Explore" />
+</M3eTabs>
+```
+
+<details>
+<summary>@material/web 备选</summary>
+
+**元素**：`md-tabs`、`md-primary-tab`、`md-secondary-tab`
+**导入**：`@material/web/tabs/tabs.js`、`@material/web/tabs/primary-tab.js`、`@material/web/tabs/secondary-tab.js`
 
 ```html
 <md-tabs>
@@ -782,39 +1517,101 @@ OutlinedTextField(
   </md-primary-tab>
 </md-tabs>
 ```
+</details>
 
-**A11y**: Tab set has built-in tablist role. Connect tabs to panels with `aria-controls`.
+**无障碍**：标签页集合内置 tablist 角色。使用 `aria-controls` 将标签页与面板关联。
 
-### Toolbar
-**No @material/web element yet.** Displays frequently used actions relevant to current page context. Typically placed below top app bar or in contextual positions.
+### 工具栏
 
-## Data Display
+**使用场景**：显示与当前页面上下文相关的常用操作。通常放置在顶部应用栏下方或上下文中适当的位置。
 
-### List
-**Elements**: `md-list`, `md-list-item`
-**Import**: `@material/web/list/list.js`, `@material/web/list/list-item.js`
+> **@m3e/react 推荐：** `M3eToolbar`（`@m3e/react/toolbar`）。
 
-**I/O 2026 note:** Expressive lists add more vibrant styles and flexible item configurations. In Compose, prefer Material3 list patterns and keep spacing, leading/trailing content, supporting text, and dividers token-driven. On web, `md-list` is useful for standard lists; custom CSS may be needed for expressive list treatments.
+| 属性 | 类型 | 描述 |
+|------|------|------|
+| `dense` | boolean | 紧凑模式 |
+| `align` | string | 对齐方式（`start`、`center`、`end`） |
 
-| Attribute (list-item) | Type | Description |
+```tsx
+import { M3eToolbar } from '@m3e/react/toolbar';
+import { M3eButton } from '@m3e/react/button';
+import { M3eIconButton } from '@m3e/react/icon-button';
+import { M3eDivider } from '@m3e/react/divider';
+
+<M3eToolbar>
+  <M3eButton variant="outlined" icon="format_bold">Bold</M3eButton>
+  <M3eButton variant="outlined" icon="format_italic">Italic</M3eButton>
+  <M3eDivider inset />
+  <M3eIconButton aria-label="Undo" icon="undo" />
+  <M3eIconButton aria-label="Redo" icon="redo" />
+</M3eToolbar>
+```
+
+**无障碍**：工具栏内的按钮组应使用 `aria-label` 描述用途。
+
+## 数据展示
+
+### 列表
+
+**使用场景**：显示结构化的内容集合。
+
+> **@m3e/react 推荐：** `M3eList`、`M3eListItem`（`@m3e/react/list`）。
+
+**I/O 2026 备注：** 表现力列表增加了更生动的样式和灵活的项配置。在 Compose 中，优先使用 Material3 列表模式，并保持间距、前置/后置内容、辅助文本和分隔线由令牌驱动。在 Web 上，`@m3e/react` 提供完整的列表支持；`@material/web` 适用于标准列表，表现力列表效果可能需要自定义 CSS。
+
+| 属性（列表项） | 类型 | 描述 |
 |----------------------|------|-------------|
-| `type` | string | `text` (default), `button`, `link` |
-| `href` | string | URL (when type="link") |
-| `disabled` | boolean | Disabled state |
+| `type` | string | `text`（默认）、`button`、`link` |
+| `href` | string | URL（当 type="link" 时） |
+| `disabled` | boolean | 禁用状态 |
+
+```tsx
+import { M3eList, M3eListItem } from '@m3e/react/list';
+import { M3eDivider } from '@m3e/react/divider';
+
+<M3eList>
+  {/* 单行 */}
+  <M3eListItem>Single line item</M3eListItem>
+
+  {/* 带图标的双行 */}
+  <M3eListItem leadingIcon="person" headline="Jane Smith" supportingText="Senior Developer" />
+
+  {/* 三行 */}
+  <M3eListItem
+    leadingIcon="mail"
+    headline="Meeting notes"
+    supportingText="Please review the attached notes from today's standup meeting and provide feedback."
+    trailingSupportingText="3 min ago"
+  />
+
+  <M3eDivider />
+
+  {/* 可点击项 */}
+  <M3eListItem type="button" onClick={handleClick} leadingIcon="settings" trailingIcon="chevron_right">
+    Settings
+  </M3eListItem>
+</M3eList>
+```
+
+<details>
+<summary>@material/web 备选</summary>
+
+**元素**：`md-list`、`md-list-item`
+**导入**：`@material/web/list/list.js`、`@material/web/list/list-item.js`
 
 ```html
 <md-list>
-  <!-- One-line -->
+  <!-- 单行 -->
   <md-list-item>Single line item</md-list-item>
 
-  <!-- Two-line with icon -->
+  <!-- 带图标的双行 -->
   <md-list-item>
     <md-icon slot="start">person</md-icon>
     <div slot="headline">Jane Smith</div>
     <div slot="supporting-text">Senior Developer</div>
   </md-list-item>
 
-  <!-- Three-line -->
+  <!-- 三行 -->
   <md-list-item>
     <md-icon slot="start">mail</md-icon>
     <div slot="headline">Meeting notes</div>
@@ -824,7 +1621,7 @@ OutlinedTextField(
 
   <md-divider></md-divider>
 
-  <!-- Clickable item -->
+  <!-- 可点击项 -->
   <md-list-item type="button" onclick="handleClick()">
     <md-icon slot="start">settings</md-icon>
     <div slot="headline">Settings</div>
@@ -833,4 +1630,5 @@ OutlinedTextField(
 </md-list>
 ```
 
-**Slots**: `start` (leading element), `end` (trailing element), `headline` (primary text), `supporting-text` (secondary text), `trailing-supporting-text` (trailing metadata), `overline` (above headline)
+**插槽**：`start`（前置元素）、`end`（后置元素）、`headline`（主要文本）、`supporting-text`（辅助文本）、`trailing-supporting-text`（尾部元数据）、`overline`（标题上方文本）
+</details>
